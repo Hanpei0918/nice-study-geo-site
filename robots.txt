@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hanpei0918.github.io/nice-study-geo-demo/sitemap.xml
+Sitemap: https://niceeducationglobal.com/sitemap.xml
