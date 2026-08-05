@@ -246,6 +246,272 @@
     padding:28px;
  }
 }
+
+/* ===== AI 留学顾问 · Liquid Glass Chat ===== */
+.ai-chat-panel,
+.ai-chat-launcher{
+    position:fixed;
+    right:24px;
+    bottom:24px;
+    z-index:180;
+    color:var(--ink);
+    border:0;
+    background:transparent;
+    box-shadow:0 24px 70px rgba(9,19,33,.22);
+}
+.ai-chat-panel{
+    width:min(380px,calc(100vw - 28px));
+    height:530px;
+    min-width:320px;
+    min-height:420px;
+    resize:none;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden!important;
+    border-radius:32px;
+    pointer-events:auto;
+    opacity:1;
+    transform:translateY(0) scale(1);
+    transform-origin:right bottom;
+    transition:opacity .28s ease,transform .42s cubic-bezier(.2,.8,.2,1),visibility 0s;
+}
+.ai-chat-panel:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:1;
+    pointer-events:auto;
+    border:1px solid rgba(255,244,225,.48);
+    border-radius:inherit;
+    background:
+      linear-gradient(145deg,rgba(242,207,158,.84),rgba(199,139,76,.76));
+    box-shadow:
+      inset 0 1px 1px rgba(255,255,255,.48),
+      inset 0 -1px 1px rgba(104,64,27,.12);
+}
+.ai-chat-panel > canvas,
+.ai-chat-launcher > canvas{
+    position:absolute!important;
+    inset:0;
+    z-index:0!important;
+    pointer-events:none!important;
+}
+.ai-chat-panel > :not(canvas),
+.ai-chat-launcher > :not(canvas){position:relative;z-index:2}
+#liquid-glass-root.ai-chat-collapsed .ai-chat-panel{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transform:translate(22px,20px) scale(.72);
+    transition:opacity .22s ease,transform .34s cubic-bezier(.4,0,.2,1),visibility 0s .34s;
+}
+.ai-chat-head{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:12px;
+    align-items:center;
+    padding:18px 18px 15px;
+    border-bottom:1px solid rgba(9,19,33,.1);
+    cursor:grab;
+    user-select:none;
+    touch-action:none;
+}
+.ai-chat-head:active{cursor:grabbing}
+.ai-chat-avatar{
+    display:grid;
+    place-items:center;
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:linear-gradient(145deg,#173756,#0a1423);
+    color:#fff;
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.28),0 7px 18px rgba(9,19,33,.2);
+}
+.ai-chat-avatar svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8}
+.ai-chat-title{min-width:0}
+.ai-chat-title b{display:block;font-size:15px;letter-spacing:-.01em}
+.ai-chat-status{display:flex;align-items:center;gap:7px;margin-top:4px;color:#617080;font-size:11px}
+.ai-chat-status:before{content:"";width:7px;height:7px;border-radius:50%;background:#67bda1;box-shadow:0 0 0 4px rgba(103,189,161,.14)}
+.ai-chat-close{
+    display:grid;
+    place-items:center;
+    width:34px;
+    height:34px;
+    padding:0;
+    border:1px solid rgba(9,19,33,.12);
+    border-radius:50%;
+    background:rgba(255,255,255,.28);
+    color:var(--ink);
+    cursor:pointer;
+    font-size:20px;
+    line-height:1;
+    transition:transform .25s ease,background .25s ease;
+}
+.ai-chat-close:hover{transform:rotate(8deg);background:rgba(255,255,255,.62)}
+.ai-chat-messages{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    padding:20px 18px;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(9,19,33,.22) transparent;
+}
+.ai-chat-time{margin-bottom:15px;text-align:center;color:#718092;font-size:10px;letter-spacing:.08em}
+.ai-message{display:flex;gap:9px;align-items:flex-end;margin:0 0 12px}
+.ai-message.is-user{justify-content:flex-end}
+.ai-message-avatar{
+    flex:0 0 auto;
+    display:grid;
+    place-items:center;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background:#10233a;
+    color:#fff;
+    font-size:10px;
+    font-weight:800;
+}
+.ai-message-bubble{
+    max-width:78%;
+    padding:11px 13px;
+    border:1px solid rgba(255,255,255,.45);
+    border-radius:16px 16px 16px 5px;
+    background:rgba(255,255,255,.58);
+    box-shadow:0 8px 20px rgba(9,19,33,.07);
+    color:#26364a;
+    font-size:13px;
+    line-height:1.65;
+}
+.ai-message.is-user .ai-message-bubble{
+    border-color:rgba(9,19,33,.12);
+    border-radius:16px 16px 5px 16px;
+    background:#10233a;
+    color:#fff;
+}
+.ai-chat-suggestions{display:flex;gap:7px;overflow-x:auto;padding:0 18px 13px;scrollbar-width:none}
+.ai-chat-suggestions::-webkit-scrollbar{display:none}
+.ai-chat-suggestion{
+    flex:0 0 auto;
+    padding:7px 10px;
+    border:1px solid rgba(9,19,33,.12);
+    border-radius:999px;
+    background:rgba(255,255,255,.28);
+    color:#42536a;
+    cursor:pointer;
+    font-size:11px;
+    transition:background .2s ease,transform .2s ease;
+}
+.ai-chat-suggestion:hover{background:rgba(255,255,255,.62);transform:translateY(-1px)}
+.ai-chat-form{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:9px;
+    align-items:end;
+    padding:13px 36px 14px 14px;
+    border-top:1px solid rgba(9,19,33,.1);
+}
+.ai-chat-input{
+    width:100%;
+    min-height:42px;
+    max-height:92px;
+    resize:none;
+    outline:0;
+    padding:11px 13px;
+    border:1px solid rgba(9,19,33,.12);
+    border-radius:15px;
+    background:rgba(255,255,255,.38);
+    color:var(--ink);
+    font-size:13px;
+    line-height:1.45;
+}
+.ai-chat-input::placeholder{color:#788697}
+.ai-chat-send{
+    display:grid;
+    place-items:center;
+    width:42px;
+    height:42px;
+    padding:0;
+    border:0;
+    border-radius:14px;
+    background:#0a1423;
+    color:#fff;
+    cursor:pointer;
+    transition:transform .22s ease,background .22s ease;
+}
+.ai-chat-send:hover{transform:translateY(-2px);background:#173756}
+.ai-chat-send svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8}
+.ai-chat-resize{
+    position:absolute!important;
+    right:5px;
+    bottom:5px;
+    z-index:5!important;
+    width:24px;
+    height:24px;
+    padding:0;
+    border:0;
+    background:transparent;
+    color:rgba(9,19,33,.52);
+    cursor:nwse-resize;
+    touch-action:none;
+    pointer-events:none;
+}
+.ai-chat-resize:before,
+.ai-chat-resize:after{
+    content:"";
+    position:absolute;
+    right:4px;
+    bottom:5px;
+    height:1px;
+    border-radius:2px;
+    background:currentColor;
+    transform:rotate(-45deg);
+    transform-origin:right center;
+}
+.ai-chat-resize:before{width:13px}
+.ai-chat-resize:after{width:7px;right:4px;bottom:9px}
+.ai-chat-launcher{
+    display:grid;
+    place-items:center;
+    width:64px;
+    height:64px;
+    padding:0;
+    overflow:hidden;
+    border-radius:50%;
+    pointer-events:none;
+    cursor:pointer;
+    opacity:0;
+    visibility:hidden;
+    transform:scale(.72);
+    transition:opacity .24s ease,transform .38s cubic-bezier(.2,.8,.2,1),visibility 0s .38s;
+}
+.ai-chat-launcher .launcher-icon{
+    display:grid;
+    place-items:center;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#0a1423;
+    color:#fff;
+    box-shadow:0 7px 20px rgba(9,19,33,.28);
+}
+.ai-chat-launcher svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8}
+#liquid-glass-root.ai-chat-collapsed .ai-chat-launcher{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:scale(1);
+    transition-delay:.12s,0s,0s;
+}
+@media(max-width:650px){
+    .ai-chat-panel{right:12px;bottom:12px;width:calc(100vw - 24px);min-width:0;height:min(520px,calc(100svh - 112px));min-height:380px;border-radius:28px}
+    .ai-chat-launcher{right:12px;bottom:12px}
+    .ai-chat-head{padding:15px 15px 13px}
+    .ai-chat-messages{padding:17px 15px}
+    .ai-chat-suggestions{padding-left:15px;padding-right:15px}
+    .ai-chat-form{padding-right:14px}
+    .ai-chat-panel{resize:none}
+    .ai-chat-resize{display:none}
+}
 </style>
     <script type="application/ld+json">
         {
@@ -612,6 +878,55 @@
             <a href="#top">BACK TO TOP ↑</a>
         </footer>
     </section>
+
+    <section class="ai-chat-panel" id="aiChatPanel" role="dialog" aria-labelledby="aiChatTitle"
+             data-config='{"cornerRadius":30,"blurAmount":0.25}'>
+            <div class="ai-chat-head">
+                <span class="ai-chat-avatar" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M7.2 18.2 4 20l.8-3.7A7.5 7.5 0 0 1 3 11.5C3 7.4 7 4 12 4s9 3.4 9 7.5-4 7.5-9 7.5c-1.8 0-3.4-.4-4.8-.8Z"/><path d="M8 11.5h.01M12 11.5h.01M16 11.5h.01"/></svg>
+                </span>
+                <span class="ai-chat-title">
+                    <b id="aiChatTitle">奈斯 AI 留学顾问</b>
+                    <span class="ai-chat-status">在线 · 随时为你解答</span>
+                </span>
+                <button class="ai-chat-close" id="aiChatClose" type="button" aria-label="收起聊天窗口">×</button>
+            </div>
+
+            <div class="ai-chat-messages" id="aiChatMessages" aria-live="polite">
+                <div class="ai-chat-time">NICE EDUCATION · AI ASSISTANT</div>
+                <div class="ai-message">
+                    <span class="ai-message-avatar" aria-hidden="true">N</span>
+                    <div class="ai-message-bubble">你好，欢迎来到奈斯教育 👋<br>我是你的 AI 留学顾问，有什么可以帮您的吗？</div>
+                </div>
+                <div class="ai-message">
+                    <span class="ai-message-avatar" aria-hidden="true">N</span>
+                    <div class="ai-message-bubble">你可以告诉我目前的升学阶段、意向国家，或者直接说说正在困扰你的问题。</div>
+                </div>
+            </div>
+
+            <div class="ai-chat-suggestions" aria-label="快捷问题">
+                <button class="ai-chat-suggestion" type="button">留学规划怎么开始？</button>
+                <button class="ai-chat-suggestion" type="button">如何选择国家？</button>
+                <button class="ai-chat-suggestion" type="button">预约顾问咨询</button>
+            </div>
+
+            <form class="ai-chat-form" id="aiChatForm">
+                <textarea class="ai-chat-input" id="aiChatInput" rows="1" aria-label="输入聊天内容"
+                          placeholder="请输入你想咨询的问题…"></textarea>
+                <button class="ai-chat-send" type="submit" aria-label="发送消息">
+                    <svg viewBox="0 0 24 24"><path d="m4 12 16-8-6.2 16-2.5-6.3L4 12Z"/><path d="m11.3 13.7 4.2-4.2"/></svg>
+                </button>
+            </form>
+            <span class="ai-chat-resize" id="aiChatResize" role="separator"
+                  aria-label="拖动调整聊天窗口大小" title="拖动调整窗口大小"></span>
+    </section>
+
+    <button class="ai-chat-launcher" id="aiChatLauncher" type="button" aria-label="打开 AI 留学顾问"
+            data-config='{"cornerRadius":32,"blurAmount":0.25}'>
+        <span class="launcher-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M7.2 18.2 4 20l.8-3.7A7.5 7.5 0 0 1 3 11.5C3 7.4 7 4 12 4s9 3.4 9 7.5-4 7.5-9 7.5c-1.8 0-3.4-.4-4.8-.8Z"/><path d="M8 11.5h.01M12 11.5h.01M16 11.5h.01"/></svg>
+        </span>
+    </button>
 </main>
 
 <script type="module">
@@ -619,10 +934,12 @@
 
     const liquidGlassRoot = document.querySelector('#liquid-glass-root');
     const liquidGlassDock = document.querySelector('.site-header');
+    const aiChatPanel = document.querySelector('#aiChatPanel');
+    const aiChatLauncher = document.querySelector('#aiChatLauncher');
     if (document.fonts?.ready) await document.fonts.ready;
     const liquidGlass = await LiquidGlass.init({
       root: liquidGlassRoot,
-      glassElements: [liquidGlassDock]
+      glassElements: [liquidGlassDock, aiChatPanel, aiChatLauncher]
     });
     // 各区块是玻璃根容器的直接子元素；滚动时仅重绘玻璃，复用每个区块的独立捕获。
     let liquidGlassScrollFrame = 0;
@@ -643,6 +960,192 @@
       button.innerHTML = '<span>信息已保存，部署后将自动发送</span><span>✓</span>';
       button.style.background = '#ffffff';
       setTimeout(() => { button.innerHTML = original; button.removeAttribute('style'); }, 3200);
+    });
+
+    const aiChatClose = document.getElementById('aiChatClose');
+    const aiChatHead = aiChatPanel.querySelector('.ai-chat-head');
+    const aiChatResize = document.getElementById('aiChatResize');
+    const aiChatForm = document.getElementById('aiChatForm');
+    const aiChatInput = document.getElementById('aiChatInput');
+    const aiChatMessages = document.getElementById('aiChatMessages');
+
+    const setChatCollapsed = (collapsed) => {
+      liquidGlassRoot.classList.toggle('ai-chat-collapsed', collapsed);
+      aiChatPanel.setAttribute('aria-hidden', String(collapsed));
+      aiChatLauncher.setAttribute('aria-expanded', String(!collapsed));
+      liquidGlass.markChanged();
+      if (!collapsed) setTimeout(() => aiChatInput.focus(), 380);
+    };
+
+    const chatViewportMargin = 10;
+    let chatInteraction = null;
+
+    const pinChatPanelToCurrentPosition = () => {
+      const rect = aiChatPanel.getBoundingClientRect();
+      aiChatPanel.style.left = `${rect.left}px`;
+      aiChatPanel.style.top = `${rect.top}px`;
+      aiChatPanel.style.right = 'auto';
+      aiChatPanel.style.bottom = 'auto';
+      aiChatPanel.style.width = `${rect.width}px`;
+      aiChatPanel.style.height = `${rect.height}px`;
+      return rect;
+    };
+
+    // 固定当前视觉位置，让浏览器原生 resize 从右下角自然改变尺寸。
+    pinChatPanelToCurrentPosition();
+    const aiChatResizeObserver = new ResizeObserver(() => liquidGlass.markChanged());
+    aiChatResizeObserver.observe(aiChatPanel);
+    window.addEventListener('pagehide', () => aiChatResizeObserver.disconnect(), { once: true });
+
+    aiChatHead.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0 || event.target.closest('button,a,input,textarea,select')) return;
+      const rect = pinChatPanelToCurrentPosition();
+      chatInteraction = {
+        type: 'move',
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        startLeft: rect.left,
+        startTop: rect.top,
+        width: rect.width,
+        height: rect.height
+      };
+      aiChatHead.setPointerCapture(event.pointerId);
+      event.preventDefault();
+    });
+
+    aiChatHead.addEventListener('pointermove', (event) => {
+      if (!chatInteraction || chatInteraction.type !== 'move' || chatInteraction.pointerId !== event.pointerId) return;
+      const maxLeft = Math.max(chatViewportMargin, window.innerWidth - chatInteraction.width - chatViewportMargin);
+      const maxTop = Math.max(chatViewportMargin, window.innerHeight - chatInteraction.height - chatViewportMargin);
+      const left = Math.min(maxLeft, Math.max(chatViewportMargin, chatInteraction.startLeft + event.clientX - chatInteraction.startX));
+      const top = Math.min(maxTop, Math.max(chatViewportMargin, chatInteraction.startTop + event.clientY - chatInteraction.startY));
+      aiChatPanel.style.left = `${left}px`;
+      aiChatPanel.style.top = `${top}px`;
+      liquidGlass.markChanged();
+    });
+
+    const finishChatMove = (event) => {
+      if (!chatInteraction || chatInteraction.type !== 'move' || chatInteraction.pointerId !== event.pointerId) return;
+      if (aiChatHead.hasPointerCapture(event.pointerId)) aiChatHead.releasePointerCapture(event.pointerId);
+      chatInteraction = null;
+      liquidGlass.markChanged();
+    };
+    aiChatHead.addEventListener('pointerup', finishChatMove);
+    aiChatHead.addEventListener('pointercancel', finishChatMove);
+
+    let chatResizeState = null;
+    aiChatPanel.addEventListener('pointerdown', (event) => {
+      const hitRect = aiChatPanel.getBoundingClientRect();
+      const inResizeCorner = event.clientX >= hitRect.right - 34 && event.clientY >= hitRect.bottom - 34;
+      if (event.button !== 0 || !inResizeCorner) return;
+      const rect = pinChatPanelToCurrentPosition();
+      const computed = getComputedStyle(aiChatPanel);
+      chatResizeState = {
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        startWidth: rect.width,
+        startHeight: rect.height,
+        left: rect.left,
+        top: rect.top,
+        minWidth: parseFloat(computed.minWidth) || 280,
+        minHeight: parseFloat(computed.minHeight) || 360
+      };
+      aiChatPanel.setPointerCapture(event.pointerId);
+      document.documentElement.style.cursor = 'nwse-resize';
+      document.documentElement.style.userSelect = 'none';
+      event.preventDefault();
+      event.stopPropagation();
+    }, true);
+
+    window.addEventListener('pointermove', (event) => {
+      if (!chatResizeState || chatResizeState.pointerId !== event.pointerId) return;
+      const maxWidth = Math.max(chatResizeState.minWidth, window.innerWidth - chatResizeState.left - chatViewportMargin);
+      const maxHeight = Math.max(chatResizeState.minHeight, window.innerHeight - chatResizeState.top - chatViewportMargin);
+      const width = Math.min(maxWidth, Math.max(chatResizeState.minWidth, chatResizeState.startWidth + event.clientX - chatResizeState.startX));
+      const height = Math.min(maxHeight, Math.max(chatResizeState.minHeight, chatResizeState.startHeight + event.clientY - chatResizeState.startY));
+      aiChatPanel.style.width = `${width}px`;
+      aiChatPanel.style.height = `${height}px`;
+      liquidGlass.markChanged();
+    });
+
+    const finishChatResize = (event) => {
+      if (!chatResizeState || (event?.pointerId !== undefined && chatResizeState.pointerId !== event.pointerId)) return;
+      if (aiChatPanel.hasPointerCapture(chatResizeState.pointerId)) aiChatPanel.releasePointerCapture(chatResizeState.pointerId);
+      chatResizeState = null;
+      document.documentElement.style.removeProperty('cursor');
+      document.documentElement.style.removeProperty('user-select');
+      liquidGlass.markChanged();
+    };
+    window.addEventListener('pointerup', finishChatResize);
+    window.addEventListener('pointercancel', finishChatResize);
+    window.addEventListener('blur', finishChatResize);
+
+    window.addEventListener('resize', () => {
+      if (!aiChatPanel.style.left) return;
+      const rect = aiChatPanel.getBoundingClientRect();
+      const width = Math.min(rect.width, window.innerWidth - chatViewportMargin * 2);
+      const height = Math.min(rect.height, window.innerHeight - chatViewportMargin * 2);
+      aiChatPanel.style.width = `${width}px`;
+      aiChatPanel.style.height = `${height}px`;
+      aiChatPanel.style.left = `${Math.min(Math.max(chatViewportMargin, rect.left), window.innerWidth - width - chatViewportMargin)}px`;
+      aiChatPanel.style.top = `${Math.min(Math.max(chatViewportMargin, rect.top), window.innerHeight - height - chatViewportMargin)}px`;
+      liquidGlass.markChanged();
+    });
+
+    aiChatClose.addEventListener('click', () => setChatCollapsed(true));
+    aiChatLauncher.addEventListener('click', () => setChatCollapsed(false));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !liquidGlassRoot.classList.contains('ai-chat-collapsed')) setChatCollapsed(true);
+    });
+
+    const addChatMessage = (message, type = 'bot') => {
+      const row = document.createElement('div');
+      row.className = `ai-message${type === 'user' ? ' is-user' : ''}`;
+      if (type !== 'user') {
+        const avatar = document.createElement('span');
+        avatar.className = 'ai-message-avatar';
+        avatar.setAttribute('aria-hidden', 'true');
+        avatar.textContent = 'N';
+        row.appendChild(avatar);
+      }
+      const bubble = document.createElement('div');
+      bubble.className = 'ai-message-bubble';
+      bubble.textContent = message;
+      row.appendChild(bubble);
+      aiChatMessages.appendChild(row);
+      aiChatMessages.scrollTo({ top: aiChatMessages.scrollHeight, behavior: 'smooth' });
+      liquidGlass.markChanged();
+    };
+
+    aiChatForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const message = aiChatInput.value.trim();
+      if (!message) return;
+      addChatMessage(message, 'user');
+      aiChatInput.value = '';
+      aiChatInput.style.height = '';
+      setTimeout(() => {
+        addChatMessage('收到你的问题了。当前是聊天窗口演示版，接入 AI 后我会在这里为你提供更具体的留学建议。');
+      }, 650);
+    });
+
+    aiChatInput.addEventListener('input', () => {
+      aiChatInput.style.height = 'auto';
+      aiChatInput.style.height = `${Math.min(aiChatInput.scrollHeight, 92)}px`;
+    });
+    aiChatInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        aiChatForm.requestSubmit();
+      }
+    });
+    document.querySelectorAll('.ai-chat-suggestion').forEach((button) => {
+      button.addEventListener('click', () => {
+        aiChatInput.value = button.textContent.trim();
+        aiChatForm.requestSubmit();
+      });
     });
 
     const toggle = document.getElementById('menuToggle');
