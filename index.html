@@ -118,7 +118,8 @@
         .contact{background:var(--ink);color:#fff}.contact .section{border-top:0}.contact-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:80px}.contact h2{margin:17px 0 26px;font-size:clamp(54px,6.4vw,96px);line-height:.88;letter-spacing:-.078em}.contact h2 em{font-style:normal;color:var(--mint)}.contact p{margin:0;max-width:370px;color:rgba(255,255,255,.66);font-size:15px;line-height:1.85}.contact-meta{margin-top:54px;display:grid;grid-template-columns:1fr 1fr;gap:18px 30px}.contact-meta div{padding-top:12px;border-top:1px solid rgba(255,255,255,.2);font-size:13px;color:rgba(255,255,255,.67)}.contact-meta b{display:block;color:#fff;font-size:15px;margin-bottom:7px;font-weight:600}.contact-form{padding:30px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.17)}.form-label{display:block;margin:0 0 9px;font-size:11px;letter-spacing:.13em;color:rgba(255,255,255,.62);font-weight:800}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.field{padding:0 0 14px;border-bottom:1px solid rgba(255,255,255,.26);margin-bottom:22px}.field input,.field select,.field textarea{width:100%;padding:0;border:0;outline:0;background:transparent;color:#fff;font-size:16px}.field textarea{height:70px;resize:vertical}.field select{color:#fff}.field select option{color:var(--ink)}.form-submit{display:flex;justify-content:space-between;align-items:center;width:100%;padding:17px 18px;border:0;background:var(--mint);color:var(--ink);font-weight:800;cursor:pointer;transition:all .25s ease}.form-submit:hover{background:#fff}.form-submit span:last-child{font-size:22px;line-height:1}.form-notice{display:block;margin-top:14px;font-size:12px;color:rgba(255,255,255,.46);line-height:1.65}
         .footer{padding:28px 0;border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;gap:20px;align-items:center;color:rgba(255,255,255,.58);font-size:12px}.footer .brand{color:#fff}.footer a{border-bottom:1px solid rgba(255,255,255,.45)}
 
-        .reveal{opacity:0;transform:translateY(18px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}.reveal.is-visible{opacity:1;transform:none}
+        /* 文字必须在 LiquidGlass 首次捕获时可见，否则栅格缓存会永久缺少文字。 */
+        .reveal{opacity:1;transform:none;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
 
         @media (max-width:960px){
           .wrap,.hero-inner{width:min(calc(100% - 38px),var(--max))}.nav-links{display:none}.menu-toggle{display:block}.section{padding:95px 0}.hero{min-height:760px}.hero-inner{min-height:760px;padding:134px 0 36px}.hero h1{font-size:clamp(58px,12vw,100px)}.section-head,.statement-grid,.system-layout,.contact-grid{grid-template-columns:1fr;gap:24px}.section-head{margin-bottom:42px}.statement{padding:105px 0 72px}.metrics{margin-top:58px}.advantage-layout{grid-template-columns:1fr}.advantage-visual{min-height:470px}.system-sticky{position:static}.school-grid{grid-template-columns:repeat(2,1fr)}.team-grid{grid-template-columns:repeat(2,1fr)}.contact-grid{gap:48px}.contact h2{font-size:72px}
@@ -346,7 +347,7 @@
     </script>
 </head>
 <body>
-<div id="liquid-glass-root">
+<main id="liquid-glass-root">
 <div class="page-grid"></div>
 <!-- 教程同款做法：背景图片是玻璃根容器的直接子元素，供 WebGL 直接采样。 -->
 <img class="liquid-hero-bg" src="assets/hero-nice-bg.jpg" alt="" aria-hidden="true"/>
@@ -370,7 +371,6 @@
     </div>
 </header>
 
-<main>
     <section class="hero" id="top">
         <div class="hero-inner">
             <div class="hero-topline">
@@ -613,7 +613,6 @@
         </footer>
     </section>
 </main>
-</div>
 
 <script type="module">
     import { LiquidGlass } from 'https://cdn.jsdelivr.net/npm/@ybouane/liquidglass/dist/index.js';
@@ -625,12 +624,16 @@
       root: liquidGlassRoot,
       glassElements: [liquidGlassDock]
     });
+    // 各区块是玻璃根容器的直接子元素；滚动时仅重绘玻璃，复用每个区块的独立捕获。
+    let liquidGlassScrollFrame = 0;
+    window.addEventListener('scroll', () => {
+      if (liquidGlassScrollFrame) return;
+      liquidGlassScrollFrame = requestAnimationFrame(() => {
+        liquidGlass.markChanged();
+        liquidGlassScrollFrame = 0;
+      });
+    }, { passive: true });
     window.addEventListener('pagehide', () => liquidGlass.destroy(), { once: true });
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
-    }, { threshold: .13 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
     const form = document.getElementById('contactForm');
     form.addEventListener('submit', (event) => {
