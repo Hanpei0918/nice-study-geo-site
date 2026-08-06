@@ -20,6 +20,8 @@
     <meta property="og:url" content="https://niceeducationglobal.com/"/>
     <meta property="og:site_name" content="奈斯教育 NICE EDUCATION"/>
     <meta name="twitter:card" content="summary_large_image"/>
+    <link rel="modulepreload" href="assets/vendor/liquidglass-1.0.3.js"/>
+    <link rel="preload" as="image" href="assets/hero-nice-bg-optimized.avif" type="image/avif" fetchpriority="high"/>
     <style>
         :root{
           --ink:#0a1423;
@@ -92,15 +94,13 @@
         .path-card:hover{transform:translateY(-7px);background:#12243c}.path-card:before{display:none}
         .path-card:after{content:"";position:absolute;inset:0;z-index:-3;background:
           linear-gradient(180deg,rgba(5,14,26,.05),rgba(5,14,26,.25)),
-          var(--path-image) var(--path-position,center)/cover no-repeat;opacity:1;transition:transform .5s ease}
+          var(--path-image,none) var(--path-position,center)/cover no-repeat;opacity:1;transition:transform .5s ease}
         .path-card:hover:after{transform:scale(1.04)}
         .path-card:nth-child(2){background:#17334a}.path-card:nth-child(3){background:#527084}
         .path-index{font-size:12px;letter-spacing:.16em;color:var(--mint);font-weight:800}.path-card h3{margin:0;font-size:34px;line-height:1.05;letter-spacing:-.045em;font-weight:650}.path-card h3 small{display:block;margin:9px 0 0;font-size:11px;letter-spacing:.13em;color:rgba(255,255,255,.56);font-weight:700}.path-card p{margin:0;max-width:290px;font-size:14px;line-height:1.85;color:rgba(255,255,255,.72)}.path-arrow{align-self:flex-end;font-size:24px;color:var(--mint)}
 
         /* Advantage */
-        .advantage-layout{display:grid;grid-template-columns:1.17fr .83fr;gap:34px;align-items:stretch}.advantage-visual{position:relative;min-height:630px;padding:42px;overflow:hidden;color:#fff;background:
-          linear-gradient(180deg,rgba(9,19,33,.04),rgba(9,19,33,.25)),
-          url("assets/advantage-graduate.jpg") center/cover no-repeat}.advantage-visual:before,.advantage-visual:after{display:none}.advantage-visual>*{position:relative;z-index:1}.advantage-visual .cover-label{font-size:12px;letter-spacing:.17em;font-weight:800;color:rgba(255,255,255,.7)}.advantage-visual h3{position:absolute;left:42px;bottom:42px;margin:0;max-width:520px;font-size:clamp(48px,5vw,78px);line-height:.91;letter-spacing:-.07em}.advantage-visual h3 em{font-style:normal;color:var(--mint)}
+        .advantage-layout{display:grid;grid-template-columns:1.17fr .83fr;gap:34px;align-items:stretch}.advantage-visual{position:relative;min-height:630px;padding:42px;overflow:hidden;color:#fff;background:#0d213b}.advantage-visual:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,19,33,.04),rgba(9,19,33,.25)),var(--section-image,none) center/cover no-repeat;transition:opacity .25s ease}.advantage-visual:after{display:none}.advantage-visual>*{position:relative;z-index:1}.advantage-visual .cover-label{font-size:12px;letter-spacing:.17em;font-weight:800;color:rgba(255,255,255,.7)}.advantage-visual h3{position:absolute;left:42px;bottom:42px;margin:0;max-width:520px;font-size:clamp(48px,5vw,78px);line-height:.91;letter-spacing:-.07em}.advantage-visual h3 em{font-style:normal;color:var(--mint)}
         .advantage-points{display:flex;flex-direction:column;justify-content:space-between;border-top:1px solid var(--line)}.advantage-point{padding:28px 0 27px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:74px 1fr;gap:18px}.advantage-point .num{font-size:12px;letter-spacing:.14em;color:#58738e;font-weight:800}.advantage-point h4{margin:0 0 9px;font-size:25px;letter-spacing:-.04em}.advantage-point p{margin:0;color:var(--muted);font-size:14px;line-height:1.8}
 
         /* System */
@@ -112,7 +112,7 @@
         /* Team */
         .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.member{min-height:510px;padding:0;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;background:var(--ink);color:white;isolation:isolate}.member:before{content:attr(data-initials);position:absolute;right:-7px;bottom:-36px;z-index:-1;font-size:150px;letter-spacing:-.12em;font-weight:800;line-height:1;color:rgba(255,255,255,.1)}.member:after{content:"";position:absolute;inset:0;z-index:-2;background-image:
           linear-gradient(180deg,rgba(5,14,26,.14) 0%,rgba(5,14,26,.18) 42%,rgba(5,14,26,.92) 100%),
-          var(--member-photo);background-position:center,center top;background-size:100% 100%,cover;background-repeat:no-repeat;filter:saturate(1) contrast(1.05);transition:transform .45s ease,filter .45s ease}.member:nth-child(2):after{background-position:center,center top}.member:nth-child(3):after{background-position:center,center top}.member:nth-child(4):after{background-position:center,center top}.member:hover:after{transform:scale(1.045);filter:saturate(.92) contrast(1.08)}.member>*{position:relative}.member-info{min-height:236px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(180deg,rgba(7,17,29,0),rgba(7,17,29,.82) 38%,rgba(7,17,29,.94))}.member .role{font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;color:var(--mint)}.member h4{margin:0;font-size:30px;letter-spacing:-.045em;line-height:1.1}.member h4 small{display:block;margin-top:7px;font-size:11px;letter-spacing:.1em;opacity:.7}.member p{margin:0;max-width:240px;color:rgba(255,255,255,.72);font-size:13px;line-height:1.75}
+          var(--member-photo,none);background-position:center,center top;background-size:100% 100%,cover;background-repeat:no-repeat;filter:saturate(1) contrast(1.05);transition:transform .45s ease,filter .45s ease}.member:nth-child(2):after{background-position:center,center top}.member:nth-child(3):after{background-position:center,center top}.member:nth-child(4):after{background-position:center,center top}.member:hover:after{transform:scale(1.045);filter:saturate(.92) contrast(1.08)}.member>*{position:relative}.member-info{min-height:236px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(180deg,rgba(7,17,29,0),rgba(7,17,29,.82) 38%,rgba(7,17,29,.94))}.member .role{font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;color:var(--mint)}.member h4{margin:0;font-size:30px;letter-spacing:-.045em;line-height:1.1}.member h4 small{display:block;margin-top:7px;font-size:11px;letter-spacing:.1em;opacity:.7}.member p{margin:0;max-width:240px;color:rgba(255,255,255,.72);font-size:13px;line-height:1.75}
 
         /* Contact */
         .contact{background:var(--ink);color:#fff}.contact .section{border-top:0}.contact-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:80px}.contact h2{margin:17px 0 26px;font-size:clamp(54px,6.4vw,96px);line-height:.88;letter-spacing:-.078em}.contact h2 em{font-style:normal;color:var(--mint)}.contact p{margin:0;max-width:370px;color:rgba(255,255,255,.66);font-size:15px;line-height:1.85}.contact-meta{margin-top:54px;display:grid;grid-template-columns:1fr 1fr;gap:18px 30px}.contact-meta div{padding-top:12px;border-top:1px solid rgba(255,255,255,.2);font-size:13px;color:rgba(255,255,255,.67)}.contact-meta b{display:block;color:#fff;font-size:15px;margin-bottom:7px;font-weight:600}.contact-form{padding:30px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.17)}.form-label{display:block;margin:0 0 9px;font-size:11px;letter-spacing:.13em;color:rgba(255,255,255,.62);font-weight:800}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.field{padding:0 0 14px;border-bottom:1px solid rgba(255,255,255,.26);margin-bottom:22px}.field input,.field select,.field textarea{width:100%;padding:0;border:0;outline:0;background:transparent;color:#fff;font-size:16px}.field textarea{height:70px;resize:vertical}.field select{color:#fff}.field select option{color:var(--ink)}.form-submit{display:flex;justify-content:space-between;align-items:center;width:100%;padding:17px 18px;border:0;background:var(--mint);color:var(--ink);font-weight:800;cursor:pointer;transition:all .25s ease}.form-submit:hover{background:#fff}.form-submit span:last-child{font-size:22px;line-height:1}.form-notice{display:block;margin-top:14px;font-size:12px;color:rgba(255,255,255,.46);line-height:1.65}
@@ -631,7 +631,10 @@
 <main id="liquid-glass-root">
 <div class="page-grid"></div>
 <!-- 教程同款做法：背景图片是玻璃根容器的直接子元素，供 WebGL 直接采样。 -->
-<img class="liquid-hero-bg" src="assets/hero-nice-bg.jpg" alt="" aria-hidden="true"/>
+<picture>
+    <source srcset="assets/hero-nice-bg-optimized.avif" type="image/avif"/>
+    <img class="liquid-hero-bg" src="assets/hero-nice-bg-optimized.jpg" alt="" aria-hidden="true" fetchpriority="high" decoding="async"/>
+</picture>
 
 <!-- 必须是 #liquid-glass-root 的直接子元素，才能折射整个页面的真实内容。 -->
 <!-- LiquidGlass 教程 Regular Glass 的原始配置。 -->
@@ -698,22 +701,22 @@
                     覆盖国内升学、全球留学、海外游学与长期成长支持。我们将复杂的信息、选择与流程，转化为更清晰、更具行动力的个人路径。</p>
             </div>
             <div class="path-grid">
-                <article class="path-card reveal"
-                         style="--path-image:url('assets/path-domestic.jpg');--path-position:center bottom">
+                <article class="path-card reveal" data-image-target="path" data-image="image-set(url('assets/path-domestic-optimized.avif') type('image/avif'),url('assets/path-domestic-optimized.jpg') type('image/jpeg'))"
+                         style="--path-position:center bottom">
                     <span class="path-index">01 / DOMESTIC</span>
                     <h3>国内升学<small>DOMESTIC ENROLLMENT</small></h3>
                     <p>综合评价、中外合作办学、国际本科与硕士等多元升学通道，结合学生优势进行精准匹配。</p>
                     <span class="path-arrow">↗</span>
                 </article>
-                <article class="path-card reveal"
-                         style="--path-image:url('assets/path-global.jpg');--path-position:center">
+                <article class="path-card reveal" data-image-target="path" data-image="image-set(url('assets/path-global-optimized.avif') type('image/avif'),url('assets/path-global-optimized.jpg') type('image/jpeg'))"
+                         style="--path-position:center">
                     <span class="path-index">02 / GLOBAL</span>
                     <h3>全球留学<small>STUDYING ABROAD</small></h3>
                     <p>覆盖中国港澳、英国、美国、加拿大、澳大利亚、新西兰及亚洲、欧洲等主流目的地。</p>
                     <span class="path-arrow">↗</span>
                 </article>
-                <article class="path-card reveal"
-                         style="--path-image:url('assets/path-explore.jpg');--path-position:center">
+                <article class="path-card reveal" data-image-target="path" data-image="image-set(url('assets/path-explore-optimized.avif') type('image/avif'),url('assets/path-explore-optimized.jpg') type('image/jpeg'))"
+                         style="--path-position:center">
                     <span class="path-index">03 / EXPLORE</span>
                     <h3>海外游学<small>OVERSEAS STUDY TOURS</small></h3>
                     <p>利用寒暑假走进英国、美国、加拿大、澳大利亚等地，在真实的文化与校园环境中探索未来。</p>
@@ -734,7 +737,7 @@
                     信息不再稀缺的时代，真正有价值的是能够理解专业、理解学生，并据此给出诚实而有判断力的规划建议。</p>
             </div>
             <div class="advantage-layout">
-                <div class="advantage-visual reveal">
+                <div class="advantage-visual reveal" data-image-target="section" data-image="image-set(url('assets/advantage-graduate-optimized.avif') type('image/avif'),url('assets/advantage-graduate-optimized.jpg') type('image/jpeg'))">
                     <span class="cover-label">NICE EDUCATION / 2026</span>
                     <h3>懂专业，<br><em>才更懂你。</em></h3>
                 </div>
@@ -802,7 +805,10 @@
 
     <section class="results" id="results">
         <div class="wrap results-inner">
-            <img class="results-poster" src="assets/offer-display.png" alt="奈斯教育 Offer 案例展示">
+            <picture>
+                <source srcset="assets/offer-display-optimized.avif" type="image/avif"/>
+                <img class="results-poster" src="assets/offer-display-optimized.jpg" alt="奈斯教育 Offer 案例展示" loading="lazy" decoding="async">
+            </picture>
         </div>
     </section>
 
@@ -816,23 +822,22 @@
                     由主导师、专业导师、职业咨询导师与文书导师组成。我们提供一对一协作，而不是流水线交付。</p>
             </div>
             <div class="team-grid">
-                <article class="member reveal" data-initials="WB" style="--member-photo:url('assets/team-wendy.jpg')">
+                <article class="member reveal" data-initials="WB" data-image-target="member" data-image="image-set(url('assets/team-wendy-optimized.avif') type('image/avif'),url('assets/team-wendy-optimized.jpg') type('image/jpeg'))">
                     <div class="member-info"><span class="role">FOUNDER · 10YRS+</span><h4>王冰<small>WENDY WANG</small>
                     </h4>
                         <p>奈斯教育创始人。深耕英国、港澳、美国及加拿大高端升学规划，已助力千余名学生获得名校录取。</p></div>
                 </article>
-                <article class="member reveal" data-initials="GH" style="--member-photo:url('assets/team-gonghan.jpg')">
+                <article class="member reveal" data-initials="GH" data-image-target="member" data-image="image-set(url('assets/team-gonghan-optimized.avif') type('image/avif'),url('assets/team-gonghan-optimized.jpg') type('image/jpeg'))">
                     <div class="member-info"><span class="role">SENIOR CONSULTANT</span><h4>龚翰<small>GONGHAN</small>
                     </h4>
                         <p>擅长英国、香港、澳门、新加坡、澳洲等方向，为学生提供从定位到落地的长期规划支持。</p></div>
                 </article>
-                <article class="member reveal" data-initials="EG" style="--member-photo:url('assets/team-eric.jpg')">
+                <article class="member reveal" data-initials="EG" data-image-target="member" data-image="image-set(url('assets/team-eric-optimized.avif') type('image/avif'),url('assets/team-eric-optimized.jpg') type('image/jpeg'))">
                     <div class="member-info"><span class="role">GLOBAL ADMISSIONS</span><h4>高钰东<small>ERIC
                         GAO</small></h4>
                         <p>聚焦美国、加拿大升学与移民路径，擅长把握学生文书亮点，提供低分高录的个性化方案。</p></div>
                 </article>
-                <article class="member reveal" data-initials="YX"
-                         style="--member-photo:url('assets/team-yongxiang.jpg')">
+                <article class="member reveal" data-initials="YX" data-image-target="member" data-image="image-set(url('assets/team-yongxiang-optimized.avif') type('image/avif'),url('assets/team-yongxiang-optimized.jpg') type('image/jpeg'))">
                     <div class="member-info"><span class="role">SENIOR PLANNER</span><h4>雍翔<small>YONGXIANG</small>
                     </h4>
                         <p>专注多国联申与私人定制规划，以耐心、高响应和细致服务赢得学生与家长的认可。</p></div>
@@ -966,7 +971,8 @@
 </main>
 
 <script type="module">
-    import { LiquidGlass } from 'https://cdn.jsdelivr.net/npm/@ybouane/liquidglass/dist/index.js';
+    // 使用随站点发布的官方 LiquidGlass 1.0.3，避免首屏依赖跨境 CDN。
+    import { LiquidGlass } from './assets/vendor/liquidglass-1.0.3.js';
 
     const liquidGlassRoot = document.querySelector('#liquid-glass-root');
     const liquidGlassDock = document.querySelector('.site-header');
@@ -977,14 +983,38 @@
       root: liquidGlassRoot,
       glassElements: [liquidGlassDock, aiChatPanel, aiChatLauncher]
     });
-    // 各区块是玻璃根容器的直接子元素；滚动时仅重绘玻璃，复用每个区块的独立捕获。
-    let liquidGlassScrollFrame = 0;
-    window.addEventListener('scroll', () => {
-      if (liquidGlassScrollFrame) return;
-      liquidGlassScrollFrame = requestAnimationFrame(() => {
-        liquidGlass.markChanged();
-        liquidGlassScrollFrame = 0;
+
+    // 仅在区块接近视口时下载其背景图，减少首次打开网站时的网络负担。
+    const deferredImages = document.querySelectorAll('[data-image-target][data-image]');
+    const applyDeferredImage = (element) => {
+      const imageProperty = element.dataset.imageTarget === 'path'
+        ? '--path-image'
+        : element.dataset.imageTarget === 'member'
+          ? '--member-photo'
+          : '--section-image';
+      element.style.setProperty(imageProperty, element.dataset.image);
+      liquidGlass.markChanged(element);
+    };
+    const deferredImageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        applyDeferredImage(entry.target);
+        observer.unobserve(entry.target);
       });
+    }, { rootMargin: '900px 0px' });
+    deferredImages.forEach((element) => deferredImageObserver.observe(element));
+
+    // 滚动时限制玻璃采样更新频率；视觉连续，CPU/GPU 开销明显更低。
+    let liquidGlassScrollTimer = 0;
+    let lastLiquidGlassRefresh = 0;
+    window.addEventListener('scroll', () => {
+      if (liquidGlassScrollTimer) return;
+      const delay = Math.max(0, 72 - (performance.now() - lastLiquidGlassRefresh));
+      liquidGlassScrollTimer = window.setTimeout(() => requestAnimationFrame(() => {
+        liquidGlass.markChanged();
+        lastLiquidGlassRefresh = performance.now();
+        liquidGlassScrollTimer = 0;
+      }), delay);
     }, { passive: true });
     window.addEventListener('pagehide', () => liquidGlass.destroy(), { once: true });
 
