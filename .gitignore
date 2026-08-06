@@ -1,1 +1,11 @@
 .idea/
+worker/node_modules/
+worker/.wrangler/
+worker/.dev.vars
+functions/node_modules/
+functions/.env
+functions/.env.*
+firebase-debug.log
+firebase-debug.*.log
+.firebase/
+.firebaserc

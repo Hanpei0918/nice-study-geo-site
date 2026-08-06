@@ -1,0 +1,10 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 客户资料仅允许受信任的 Firebase Admin SDK（Cloud Functions）访问。
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

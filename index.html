@@ -116,6 +116,7 @@
 
         /* Contact */
         .contact{background:var(--ink);color:#fff}.contact .section{border-top:0}.contact-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:80px}.contact h2{margin:17px 0 26px;font-size:clamp(54px,6.4vw,96px);line-height:.88;letter-spacing:-.078em}.contact h2 em{font-style:normal;color:var(--mint)}.contact p{margin:0;max-width:370px;color:rgba(255,255,255,.66);font-size:15px;line-height:1.85}.contact-meta{margin-top:54px;display:grid;grid-template-columns:1fr 1fr;gap:18px 30px}.contact-meta div{padding-top:12px;border-top:1px solid rgba(255,255,255,.2);font-size:13px;color:rgba(255,255,255,.67)}.contact-meta b{display:block;color:#fff;font-size:15px;margin-bottom:7px;font-weight:600}.contact-form{padding:30px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.17)}.form-label{display:block;margin:0 0 9px;font-size:11px;letter-spacing:.13em;color:rgba(255,255,255,.62);font-weight:800}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.field{padding:0 0 14px;border-bottom:1px solid rgba(255,255,255,.26);margin-bottom:22px}.field input,.field select,.field textarea{width:100%;padding:0;border:0;outline:0;background:transparent;color:#fff;font-size:16px}.field textarea{height:70px;resize:vertical}.field select{color:#fff}.field select option{color:var(--ink)}.form-submit{display:flex;justify-content:space-between;align-items:center;width:100%;padding:17px 18px;border:0;background:var(--mint);color:var(--ink);font-weight:800;cursor:pointer;transition:all .25s ease}.form-submit:hover{background:#fff}.form-submit span:last-child{font-size:22px;line-height:1}.form-notice{display:block;margin-top:14px;font-size:12px;color:rgba(255,255,255,.46);line-height:1.65}
+        .form-submit:disabled{cursor:wait;opacity:.7}.form-notice.is-success{color:var(--mint)}.form-notice.is-error{color:#ffb7ad}.form-consent{display:flex;align-items:flex-start;gap:9px;margin:0 0 16px;color:rgba(255,255,255,.62);font-size:11px;line-height:1.55}.form-consent input{flex:0 0 auto;margin-top:2px;accent-color:var(--mint)}.form-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
         .footer{padding:28px 0;border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;gap:20px;align-items:center;color:rgba(255,255,255,.58);font-size:12px}.footer .brand{color:#fff}.footer a{border-bottom:1px solid rgba(255,255,255,.45)}
 
         /* 文字必须在 LiquidGlass 首次捕获时可见，否则栅格缓存会永久缺少文字。 */
@@ -402,6 +403,19 @@
     transition:background .2s ease,transform .2s ease;
 }
 .ai-chat-suggestion:hover{background:rgba(255,255,255,.62);transform:translateY(-1px)}
+.ai-lead-form{margin:0 14px 12px;padding:13px;border:1px solid rgba(9,19,33,.12);border-radius:17px;background:rgba(255,255,255,.36)}
+.ai-lead-form[hidden]{display:none}
+.ai-lead-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;color:#26364a;font-size:12px;font-weight:800}
+.ai-lead-close{border:0;background:transparent;color:#53657a;cursor:pointer;font-size:18px;line-height:1}
+.ai-lead-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ai-lead-form input,.ai-lead-form select,.ai-lead-form textarea{width:100%;padding:9px 10px;border:1px solid rgba(9,19,33,.12);border-radius:10px;outline:0;background:rgba(255,255,255,.48);color:var(--ink);font:inherit;font-size:12px}
+.ai-lead-form textarea{grid-column:1/-1;min-height:54px;resize:vertical}
+.ai-lead-consent{display:flex;gap:7px;align-items:flex-start;margin:9px 0;color:#617080;font-size:10px;line-height:1.45}
+.ai-lead-consent input{width:auto;margin-top:2px;accent-color:#10233a}
+.ai-lead-submit{width:100%;padding:10px;border:0;border-radius:10px;background:#10233a;color:#fff;cursor:pointer;font-weight:700}
+.ai-lead-submit:disabled{cursor:wait;opacity:.65}
+.ai-lead-status{display:block;min-height:16px;margin-top:7px;color:#617080;font-size:10px;line-height:1.4}
+.ai-lead-status.is-success{color:#23775e}.ai-lead-status.is-error{color:#a33d32}
 .ai-chat-form{
     display:grid;
     grid-template-columns:1fr auto;
@@ -439,6 +453,7 @@
     transition:transform .22s ease,background .22s ease;
 }
 .ai-chat-send:hover{transform:translateY(-2px);background:#173756}
+.ai-chat-send:disabled{cursor:wait;opacity:.55;transform:none}
 .ai-chat-send svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8}
 .ai-chat-resize{
     position:absolute!important;
@@ -842,10 +857,10 @@
                 </div>
                 <form class="contact-form reveal" id="contactForm">
                     <label class="form-label" for="name">YOUR NAME / 姓名</label>
-                    <div class="field"><input id="name" name="name" required placeholder="怎么称呼您？"/></div>
+                    <div class="field"><input id="name" name="name" required maxlength="80" autocomplete="name" placeholder="怎么称呼您？"/></div>
                     <div class="form-grid">
                         <div><label class="form-label" for="phone">PHONE / 电话或微信</label>
-                            <div class="field"><input id="phone" name="phone" required placeholder="留下一个联系方式"/>
+                            <div class="field"><input id="phone" name="phone" required maxlength="120" autocomplete="tel" placeholder="留下一个联系方式"/>
                             </div>
                         </div>
                         <div><label class="form-label" for="stage">STAGE / 当前阶段</label>
@@ -865,10 +880,12 @@
                         <option>留学辅导 / 求职</option>
                     </select></div>
                     <label class="form-label" for="message">MESSAGE / 想说的话</label>
-                    <div class="field"><textarea id="message" name="message"
+                    <div class="field"><textarea id="message" name="message" maxlength="2400"
                                                  placeholder="可以简单说说你的申请目标或目前的困惑"></textarea></div>
+                    <label class="form-consent"><input type="checkbox" name="consent" required><span>我同意奈斯教育使用以上信息与我联系。我们不会要求提供身份证、护照或银行卡信息。</span></label>
+                    <label class="form-honeypot" aria-hidden="true">请勿填写<input name="website" tabindex="-1" autocomplete="off"></label>
                     <button class="form-submit" type="submit"><span>提交咨询信息</span><span>↗</span></button>
-                    <span class="form-notice">此为展示版咨询表单。部署时可接入企业微信、邮件或 CRM 系统，实现实时接收与自动跟进。</span>
+                    <span class="form-notice" id="contactFormNotice" aria-live="polite">提交后信息将安全保存，并即时通知奈斯教育顾问。</span>
                 </form>
             </div>
         </div>
@@ -909,6 +926,25 @@
                 <button class="ai-chat-suggestion" type="button">如何选择国家？</button>
                 <button class="ai-chat-suggestion" type="button">预约顾问咨询</button>
             </div>
+
+            <form class="ai-lead-form" id="aiLeadForm" hidden>
+                <div class="ai-lead-title"><span>预约真人顾问</span><button class="ai-lead-close" id="aiLeadClose" type="button" aria-label="关闭预约表单">×</button></div>
+                <div class="ai-lead-grid">
+                    <input name="name" required maxlength="80" autocomplete="name" placeholder="姓名">
+                    <input name="contact" required maxlength="120" autocomplete="tel" placeholder="电话或微信">
+                    <select name="stage" aria-label="当前阶段">
+                        <option>初中 / 高中</option><option>本科</option><option>研究生 / 博士</option><option>其他</option>
+                    </select>
+                    <select name="plan" aria-label="计划方向">
+                        <option>海外留学规划</option><option>国内升学规划</option><option>游学 / 背景提升</option><option>留学辅导 / 求职</option>
+                    </select>
+                    <textarea name="message" maxlength="1200" placeholder="希望顾问重点了解什么？"></textarea>
+                </div>
+                <label class="ai-lead-consent"><input type="checkbox" name="consent" required><span>同意奈斯教育使用以上信息与我联系</span></label>
+                <input class="form-honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <button class="ai-lead-submit" type="submit">提交并通知顾问</button>
+                <span class="ai-lead-status" id="aiLeadStatus" aria-live="polite"></span>
+            </form>
 
             <form class="ai-chat-form" id="aiChatForm">
                 <textarea class="ai-chat-input" id="aiChatInput" rows="1" aria-label="输入聊天内容"
@@ -952,14 +988,62 @@
     }, { passive: true });
     window.addEventListener('pagehide', () => liquidGlass.destroy(), { once: true });
 
+    // Firebase 项目 ID 在首次部署时写入；API Key 始终只保存在 Firebase Secret 中。
+    const NICE_FIREBASE_PROJECT_ID = window.NICE_FIREBASE_PROJECT_ID || 'nice-study-geo-demo';
+    const NICE_API_BASE = window.NICE_API_BASE
+      || `https://asia-east1-${NICE_FIREBASE_PROJECT_ID}.cloudfunctions.net/api`;
+
+    const submitLead = async (payload) => {
+      const response = await fetch(`${NICE_API_BASE}/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      let result = {};
+      try { result = await response.json(); } catch { /* 后端异常时使用统一提示 */ }
+      if (!response.ok) throw new Error(result.error || '提交失败，请稍后重试。');
+      return result;
+    };
+
     const form = document.getElementById('contactForm');
-    form.addEventListener('submit', (event) => {
+    const contactFormNotice = document.getElementById('contactFormNotice');
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      const button = form.querySelector('button');
+      const button = form.querySelector('.form-submit');
       const original = button.innerHTML;
-      button.innerHTML = '<span>信息已保存，部署后将自动发送</span><span>✓</span>';
-      button.style.background = '#ffffff';
-      setTimeout(() => { button.innerHTML = original; button.removeAttribute('style'); }, 3200);
+      const data = new FormData(form);
+      button.disabled = true;
+      button.innerHTML = '<span>正在安全提交…</span><span>···</span>';
+      contactFormNotice.className = 'form-notice';
+      contactFormNotice.textContent = '正在保存信息并通知顾问，请稍候。';
+      try {
+        const result = await submitLead({
+          source: 'website_form',
+          name: data.get('name'),
+          contact: data.get('phone'),
+          stage: data.get('stage'),
+          plan: data.get('goal'),
+          message: data.get('message'),
+          consent: data.has('consent'),
+          website: data.get('website')
+        });
+        button.innerHTML = '<span>咨询信息已提交</span><span>✓</span>';
+        button.style.background = '#ffffff';
+        contactFormNotice.className = 'form-notice is-success';
+        contactFormNotice.textContent = result.emailSent
+          ? '提交成功，顾问已收到邮件提醒，我们会尽快与您联系。'
+          : '信息已安全保存，邮件正在自动重试，我们会尽快与您联系。';
+        form.reset();
+      } catch (error) {
+        contactFormNotice.className = 'form-notice is-error';
+        contactFormNotice.textContent = error.message || '暂时无法提交，请拨打 130 6611 3279 联系我们。';
+      } finally {
+        button.disabled = false;
+        setTimeout(() => {
+          button.innerHTML = original;
+          button.removeAttribute('style');
+        }, 3600);
+      }
     });
 
     const aiChatClose = document.getElementById('aiChatClose');
@@ -968,6 +1052,10 @@
     const aiChatForm = document.getElementById('aiChatForm');
     const aiChatInput = document.getElementById('aiChatInput');
     const aiChatMessages = document.getElementById('aiChatMessages');
+    const aiChatSend = aiChatForm.querySelector('.ai-chat-send');
+    const aiLeadForm = document.getElementById('aiLeadForm');
+    const aiLeadClose = document.getElementById('aiLeadClose');
+    const aiLeadStatus = document.getElementById('aiLeadStatus');
 
     const setChatCollapsed = (collapsed) => {
       liquidGlassRoot.classList.toggle('ai-chat-collapsed', collapsed);
@@ -1117,18 +1205,145 @@
       aiChatMessages.appendChild(row);
       aiChatMessages.scrollTo({ top: aiChatMessages.scrollHeight, behavior: 'smooth' });
       liquidGlass.markChanged();
+      return bubble;
     };
 
-    aiChatForm.addEventListener('submit', (event) => {
+    let chatSessionId = '';
+    try {
+      chatSessionId = sessionStorage.getItem('niceChatSessionId') || crypto.randomUUID();
+      sessionStorage.setItem('niceChatSessionId', chatSessionId);
+    } catch {
+      chatSessionId = crypto.randomUUID();
+    }
+    const chatHistory = [];
+    let aiChatBusy = false;
+
+    const showLeadForm = () => {
+      aiLeadForm.hidden = false;
+      aiLeadStatus.textContent = '';
+      liquidGlass.markChanged();
+      aiLeadForm.querySelector('input[name="name"]').focus();
+    };
+
+    aiLeadClose.addEventListener('click', () => {
+      aiLeadForm.hidden = true;
+      liquidGlass.markChanged();
+    });
+
+    aiLeadForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const data = new FormData(aiLeadForm);
+      const button = aiLeadForm.querySelector('.ai-lead-submit');
+      const recentQuestions = chatHistory
+        .filter((item) => item.role === 'user')
+        .slice(-3)
+        .map((item) => item.content)
+        .join('；');
+      const detail = String(data.get('message') || '').trim();
+      button.disabled = true;
+      button.textContent = '正在提交…';
+      aiLeadStatus.className = 'ai-lead-status';
+      aiLeadStatus.textContent = '正在保存并通知顾问';
+      try {
+        const result = await submitLead({
+          source: 'ai_chat',
+          name: data.get('name'),
+          contact: data.get('contact'),
+          stage: data.get('stage'),
+          plan: data.get('plan'),
+          message: [detail, recentQuestions ? `最近咨询：${recentQuestions}` : ''].filter(Boolean).join('\n'),
+          consent: data.has('consent'),
+          website: data.get('website')
+        });
+        aiLeadStatus.className = 'ai-lead-status is-success';
+        aiLeadStatus.textContent = result.emailSent ? '提交成功，顾问已收到邮件提醒。' : '信息已保存，邮件正在自动重试。';
+        button.textContent = '已提交 ✓';
+        addChatMessage('预约信息已经安全提交，我们的顾问会尽快通过你留下的联系方式与你联系。');
+        aiLeadForm.reset();
+        setTimeout(() => {
+          aiLeadForm.hidden = true;
+          button.textContent = '提交并通知顾问';
+          liquidGlass.markChanged();
+        }, 2600);
+      } catch (error) {
+        aiLeadStatus.className = 'ai-lead-status is-error';
+        aiLeadStatus.textContent = error.message || '暂时无法提交，请拨打 130 6611 3279。';
+        button.textContent = '重新提交';
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    const streamAiReply = async () => {
+      const bubble = addChatMessage('正在输入…');
+      bubble.setAttribute('aria-label', 'AI 正在回复');
+      const response = await fetch(`${NICE_API_BASE}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory.slice(-10), sessionId: chatSessionId })
+      });
+      if (!response.ok || !response.body) {
+        let detail = {};
+        try { detail = await response.json(); } catch { /* 使用统一错误信息 */ }
+        throw Object.assign(new Error(detail.error || 'AI 顾问暂时无法连接，请稍后再试。'), { bubble });
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let answer = '';
+      const applyEvent = (eventBlock) => {
+        for (const line of eventBlock.split(/\r?\n/)) {
+          if (!line.startsWith('data:')) continue;
+          const data = line.slice(5).trim();
+          if (!data || data === '[DONE]') continue;
+          try {
+            const eventData = JSON.parse(data);
+            const delta = eventData.choices?.[0]?.delta?.content || '';
+            if (!delta) continue;
+            answer += delta;
+            bubble.textContent = answer;
+            aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+            liquidGlass.markChanged();
+          } catch { /* 忽略不完整的非数据事件 */ }
+        }
+      };
+
+      while (true) {
+        const { value, done } = await reader.read();
+        buffer += decoder.decode(value || new Uint8Array(), { stream: !done });
+        const blocks = buffer.split(/\r?\n\r?\n/);
+        buffer = blocks.pop() || '';
+        blocks.forEach(applyEvent);
+        if (done) break;
+      }
+      if (buffer) applyEvent(buffer);
+      if (!answer) throw Object.assign(new Error('AI 没有返回有效内容，请重新提问。'), { bubble });
+      bubble.removeAttribute('aria-label');
+      chatHistory.push({ role: 'assistant', content: answer });
+    };
+
+    aiChatForm.addEventListener('submit', async (event) => {
       event.preventDefault();
       const message = aiChatInput.value.trim();
-      if (!message) return;
+      if (!message || aiChatBusy) return;
       addChatMessage(message, 'user');
+      chatHistory.push({ role: 'user', content: message.slice(0, 1800) });
       aiChatInput.value = '';
       aiChatInput.style.height = '';
-      setTimeout(() => {
-        addChatMessage('收到你的问题了。当前是聊天窗口演示版，接入 AI 后我会在这里为你提供更具体的留学建议。');
-      }, 650);
+      aiChatBusy = true;
+      aiChatSend.disabled = true;
+      if (/预约|联系.{0,4}(顾问|老师)|人工咨询|留下.{0,4}(电话|微信)/.test(message)) showLeadForm();
+      try {
+        await streamAiReply();
+      } catch (error) {
+        const bubble = error.bubble || addChatMessage('');
+        bubble.textContent = error.message || 'AI 顾问暂时无法连接，请稍后再试。';
+      } finally {
+        aiChatBusy = false;
+        aiChatSend.disabled = false;
+        aiChatInput.focus();
+      }
     });
 
     aiChatInput.addEventListener('input', () => {
@@ -1143,7 +1358,13 @@
     });
     document.querySelectorAll('.ai-chat-suggestion').forEach((button) => {
       button.addEventListener('click', () => {
-        aiChatInput.value = button.textContent.trim();
+        const question = button.textContent.trim();
+        if (question === '预约顾问咨询') {
+          showLeadForm();
+          addChatMessage('请填写预约信息。提交后会立即保存到奈斯教育线索后台，并邮件通知顾问老师。');
+          return;
+        }
+        aiChatInput.value = question;
         aiChatForm.requestSubmit();
       });
     });
