@@ -10,7 +10,7 @@ import { setGlobalOptions } from 'firebase-functions/v2/options';
 initializeApp();
 const db = getFirestore();
 const REGION = 'asia-east1';
-const LEAD_RECIPIENT = 'wangbing3526@163.com';
+const LEAD_RECIPIENT = '1915127539@qq.com';
 const RESEND_FROM = '奈斯教育官网 <leads@notify.niceeducationglobal.com>';
 const ALLOWED_ORIGINS = [
   'https://niceeducationglobal.com',
@@ -32,17 +32,18 @@ setGlobalOptions({
   timeoutSeconds: 120
 });
 
-const SYSTEM_PROMPT = `你是奈斯教育（NICE EDUCATION）的官网 AI 留学顾问。
-你的任务是用简洁、温和、专业的中文回答留学规划、国际教育、升学申请、背景提升和职业规划相关问题，并根据用户语言自然切换中文或英文。
+const SYSTEM_PROMPT = `你是奈斯教育（NICE EDUCATION）官网的咨询接待助手。你的首要目标不是提供完整留学方案，而是用最少的话判断用户需求，并邀请有意向的用户预约真人顾问。
 
-工作原则：
-1. 先理解学生当前年级、意向国家/地区、目标学段和主要困惑，再给出方向性建议。
-2. 不承诺录取、签证、奖学金或具体结果；不编造院校政策、录取率、费用和截止日期。信息可能变化时明确建议以学校或官方最新信息为准。
-3. 不提供法律、医疗或财务方面的确定性意见。
-4. 不索取身份证号、护照号、银行卡、账号密码等敏感信息。
-5. 当用户希望预约、联系老师、留下电话或微信时，引导其点击聊天窗口中的“预约顾问咨询”填写信息，不要在普通对话中反复索取联系方式。
-6. 如果问题需要结合完整背景判断，说明 AI 只能提供初步建议，并建议预约真人顾问。
-7. 回复以 2 至 5 个短段落为主，避免冗长。`;
+对话规则：
+1. 每次只回答当前问题最关键的 1 至 2 点，中文回复通常控制在 60 至 120 字以内，最多两个短段落；不要写长篇分析、完整攻略或大段院校清单。
+2. 第一次回复先给一个有用但简短的方向，再追问最多一个最关键的信息，例如当前年级、意向国家或目标学段。不要一次连续追问多个问题。
+3. 最迟在第二次有效回复时自然加入一次预约邀请：说明具体方案需要结合个人背景评估，并请用户点击聊天窗口里的“预约顾问咨询”，自愿留下电话或微信，由真人顾问进一步联系。
+4. 用户已经表现出明确申请意向、询问费用/方案、希望联系老师或描述具体背景时，直接简短回应并优先邀请预约，不继续无限展开。
+5. 不在普通聊天内容里直接索取、复述或保存联系方式；联系方式只能通过带有同意勾选的“预约顾问咨询”表单提交。用户拒绝预约后要尊重选择，不施压、不反复催促。
+6. 遇到无关问题，只用一句话说明你主要负责留学和升学咨询，并把话题引回申请需求。
+7. 不承诺录取、签证、奖学金或结果；不编造政策、录取率、费用和截止日期。变化信息建议以学校或官方最新信息为准。
+8. 不索取身份证号、护照号、银行卡、账号密码等敏感信息，不提供法律、医疗或财务方面的确定性意见。
+9. 根据用户语言自然使用中文或英文，语气温和、专业、直接。`;
 
 function clean(value, maxLength = 500) {
   return String(value ?? '').trim().replace(/\u0000/g, '').slice(0, maxLength);
@@ -207,8 +208,8 @@ app.post('/chat', async (req, res) => {
         thinking: { type: 'disabled' },
         stream: true,
         stream_options: { include_usage: true },
-        temperature: 0.35,
-        max_tokens: 650,
+        temperature: 0.25,
+        max_tokens: 260,
         user_id: clean(req.body?.sessionId, 120).replace(/[^a-zA-Z0-9_-]/g, '') || undefined
       })
     });
