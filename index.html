@@ -21,7 +21,7 @@
     <meta property="og:site_name" content="奈斯教育 NICE EDUCATION"/>
     <meta name="twitter:card" content="summary_large_image"/>
     <link rel="modulepreload" href="assets/vendor/liquidglass-1.0.3.js"/>
-    <link rel="preload" as="image" href="assets/hero-nice-bg-optimized.avif" type="image/avif" fetchpriority="high"/>
+    <link rel="preload" as="image" href="assets/hero-nice-bg-optimized.jpg" type="image/jpeg" fetchpriority="high"/>
     <style>
         :root{
           --ink:#0a1423;
@@ -238,7 +238,10 @@
  .site-header{
     top:10px;
     width:calc(100% - 24px);
+    background:transparent;
+    box-shadow:none;
  }
+ .site-header > canvas{display:none!important}
  .site-header .nav{
     padding:0 16px;
   }
@@ -630,11 +633,8 @@
 <body>
 <main id="liquid-glass-root">
 <div class="page-grid"></div>
-<!-- 教程同款做法：背景图片是玻璃根容器的直接子元素，供 WebGL 直接采样。 -->
-<picture>
-    <source srcset="assets/hero-nice-bg-optimized.avif" type="image/avif"/>
-    <img class="liquid-hero-bg" src="assets/hero-nice-bg-optimized.jpg" alt="" aria-hidden="true" fetchpriority="high" decoding="async"/>
-</picture>
+<!-- LiquidGlass 只能稳定采样根容器的直接图片层，不能再套 picture。 -->
+<img class="liquid-hero-bg" id="liquidHeroBackground" src="assets/hero-nice-bg-optimized.jpg" alt="" aria-hidden="true" fetchpriority="high" decoding="async"/>
 
 <!-- 必须是 #liquid-glass-root 的直接子元素，才能折射整个页面的真实内容。 -->
 <!-- LiquidGlass 教程 Regular Glass 的原始配置。 -->
@@ -978,11 +978,30 @@
     const liquidGlassDock = document.querySelector('.site-header');
     const aiChatPanel = document.querySelector('#aiChatPanel');
     const aiChatLauncher = document.querySelector('#aiChatLauncher');
+    const liquidHeroBackground = document.querySelector('#liquidHeroBackground');
+    const mobileDockQuery = window.matchMedia('(max-width:650px)');
     if (document.fonts?.ready) await document.fonts.ready;
-    const liquidGlass = await LiquidGlass.init({
-      root: liquidGlassRoot,
-      glassElements: [liquidGlassDock, aiChatPanel, aiChatLauncher]
-    });
+    if (liquidHeroBackground && !liquidHeroBackground.complete) {
+      await liquidHeroBackground.decode().catch(() => {});
+    }
+
+    const liquidGlassFallback = {
+      markChanged() {},
+      destroy() {}
+    };
+    let liquidGlass = liquidGlassFallback;
+    try {
+      liquidGlass = await LiquidGlass.init({
+        root: liquidGlassRoot,
+        glassElements: [
+          ...(mobileDockQuery.matches ? [] : [liquidGlassDock]),
+          aiChatPanel,
+          aiChatLauncher
+        ]
+      });
+    } catch (error) {
+      console.warn('LiquidGlass unavailable; interactive controls remain enabled.', error);
+    }
 
     // 仅在区块接近视口时下载其背景图，减少首次打开网站时的网络负担。
     const deferredImages = document.querySelectorAll('[data-image-target][data-image]');
