@@ -234,34 +234,6 @@
     transition:.45s cubic-bezier(.2,.8,.2,1);
 }
 
-/* 桌面端沿用旧版截图的 75% 视觉尺度，同时让 LiquidGlass 画布保持原生比例。 */
-@media(min-width:651px){
- .liquid-hero-bg{height:645px}
- .hero{min-height:645px}
- .hero-inner,
- .wrap{zoom:.75}
- .section{padding:99px 0}
- .statement{padding:115.5px 0 72px}
- .results{margin-top:99px}
- .results-inner{padding:90px 0}
- .site-header{
-    top:13.5px;
-    width:min(calc(100% - 54px),960px);
-    height:54px;
- }
- .site-header .nav{
-    width:133.333333%;
-    height:133.333333%;
-    transform:scale(.75);
-    transform-origin:left top;
- }
- .ai-chat-panel,
- .ai-chat-launcher{
-    scale:.75;
-    transform-origin:right bottom;
- }
-}
-
 @media(max-width:650px){
  .site-header{
     top:10px;
