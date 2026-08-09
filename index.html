@@ -192,20 +192,43 @@
    从而产生黑边和折射错位。页面内容在独立层缩放，Dock 则直接使用等效尺寸。 */
 @media(min-width:961px){
   #liquid-glass-root > section:not(.ai-chat-panel){
-    width:100%;
+    /* 125% × 0.8 = 100%：让缩放后的内容仍完整覆盖视口，
+       避免 WebGL Dock 在右侧采样到空白并生成白色色块。 */
+    width:125%;
     zoom:.8;
+  }
+  /* 扩宽只服务于 WebGL 背景采样；内容仍以原来的 100% 视口为基准，
+     保持标题、正文和卡片修改前的水平位置。 */
+  #liquid-glass-root > section:not(.ai-chat-panel) > .wrap,
+  #liquid-glass-root > section.hero > .hero-inner{
+    width:min(calc(80% - 64px),var(--max));
+    margin-left:max(32px,calc((80% - var(--max))/2));
+    margin-right:0;
   }
   .liquid-hero-bg{height:688px}
   .site-header{
     top:14.4px;
     width:min(calc(100% - 57.6px),1024px);
     height:57.6px;
+    isolation:isolate;
   }
   .site-header .nav{
     width:100%;
-    height:72px;
-    zoom:.8;
+    height:100%;
+    padding:0 19.2px;
   }
+  /* 不对玻璃 Dock 的子元素使用 zoom：它会让 WebGL 的 offsetWidth 与视觉尺寸分离。
+     这里用等效尺寸保持原有 80% 视觉比例，让透玻璃画布能正确采样。 */
+  .site-header .brand-logo{width:120px}
+  .site-header .nav-links{gap:19.2px;font-size:10.4px}
+  .site-header .nav-action{
+    gap:9.6px;
+    padding:8px 11.2px 8px 12.8px;
+    border-radius:12.8px;
+    font-size:9.6px;
+  }
+  .site-header .nav-action i{width:16px;height:16px}
+  .site-header .nav-action i:before{font-size:10.4px}
 }
 
 /* 联系页面 07 GET STARTED 液态玻璃 */
@@ -263,20 +286,155 @@
 }
 
 @media(max-width:650px){
+ html.mobile-menu-open,
+ html.mobile-menu-open body{overflow:hidden}
  .site-header{
-    top:10px;
-    width:calc(100% - 24px);
+    top:0;
+    width:100%;
+    height:78px;
     background:transparent;
     box-shadow:none;
+    transition:background-color .42s cubic-bezier(.22,1,.36,1),
+               box-shadow .42s cubic-bezier(.22,1,.36,1),
+               height .5s cubic-bezier(.22,1,.36,1);
  }
  .site-header > canvas{display:none!important}
  .site-header .nav{
-    padding:0 16px;
+    height:78px;
+    padding:0 20px;
+    transition:height .5s cubic-bezier(.22,1,.36,1);
   }
+ .site-header .brand-logo{width:126px}
+ .site-header.is-scrolled{
+    background:#07111e;
+    box-shadow:0 1px 0 rgba(255,255,255,.1),0 12px 34px rgba(4,10,18,.16);
+ }
+ .site-header .nav-action{display:none}
+ .site-header .menu-toggle{
+    display:block;
+    width:44px;
+    height:44px;
+    margin-right:-9px;
+    padding:10px;
+    z-index:104;
+ }
+ .site-header .menu-toggle span{
+    width:27px;
+    height:2px;
+    margin:6px 0;
+    transform-origin:center;
+    transition:transform .48s cubic-bezier(.22,1,.36,1),opacity .22s ease;
+ }
+ .site-header.menu-open{
+    inset:0 auto auto 50%;
+    z-index:220;
+    width:100%;
+    height:100svh;
+    background:#07111e;
+    box-shadow:none;
+ }
+ .site-header.menu-open .nav{height:78px}
+ .site-header.menu-open .menu-toggle span:first-child{transform:translateY(4px) rotate(45deg)}
+ .site-header.menu-open .menu-toggle span:last-child{transform:translateY(-4px) rotate(-45deg)}
+ .site-header.menu-open .nav-links{
+    position:fixed;
+    inset:98px 22px 148px;
+    display:flex!important;
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+    color:#fff;
+    opacity:1;
+    overflow:auto;
+    border-top:1px solid rgba(255,255,255,.2);
+    animation:mobileMenuIn .52s cubic-bezier(.22,1,.36,1) both;
+ }
+ .site-header.menu-open .nav-links a{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    min-height:70px;
+    padding:15px 2px;
+    border-bottom:1px solid rgba(255,255,255,.2);
+    font-size:clamp(22px,6.7vw,30px);
+    font-weight:520;
+    letter-spacing:-.035em;
+ }
+ .site-header.menu-open .nav-links a:after{
+    content:"↘";
+    font-size:20px;
+    font-weight:400;
+    opacity:.8;
+    transform:translateY(-1px);
+ }
+ .site-header.menu-open .nav-action{
+    position:fixed;
+    left:22px;
+    right:22px;
+    bottom:max(18px,env(safe-area-inset-bottom));
+    display:flex;
+    justify-content:center;
+    min-height:62px;
+    padding:16px 20px;
+    border:1px solid #fff;
+    border-radius:4px;
+    background:#fff;
+    color:var(--ink);
+    box-shadow:none;
+    font-size:15px;
+    letter-spacing:.02em;
+    animation:mobileMenuIn .56s .08s cubic-bezier(.22,1,.36,1) both;
+ }
+ .site-header.menu-open .nav-action i{display:none}
+ @keyframes mobileMenuIn{
+    from{opacity:0;transform:translateY(18px)}
+    to{opacity:1;transform:none}
+ }
  .liquid-hero-bg{height:690px}
  .contact-grid > .reveal:first-child{
     padding:28px;
  }
+ /* 顾问卡在手机端固定为双列；收紧字号与信息区，避免卡片内容互相挤压。 */
+ .team-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .member{min-height:348px}
+ .member:before{right:-3px;bottom:-18px;font-size:78px}
+ .member-info{min-height:205px;padding:14px 12px}
+ .member .role{font-size:8px;letter-spacing:.1em;white-space:nowrap}
+ .member h4{font-size:22px}
+ .member h4 small{margin-top:5px;font-size:8px;line-height:1.3}
+ .member p{font-size:10px;line-height:1.58}
+
+ /* 移动端滚动进入动画；不影响桌面端，也尊重系统的“减少动态效果”。 */
+ html.mobile-motion .reveal{transition:opacity .7s ease,transform .8s cubic-bezier(.22,1,.36,1)}
+ html.mobile-motion .reveal:not(.is-visible){opacity:0;transform:translateY(24px)}
+ html.mobile-motion .member.reveal:not(.is-visible){transform:translateY(28px) scale(.97)}
+ html.mobile-motion .reveal.is-visible{opacity:1;transform:none}
+}
+
+@media(max-width:650px) and (prefers-reduced-motion:reduce){
+ .site-header,.site-header .nav,.site-header .menu-toggle span,
+ html.mobile-motion .reveal{transition:none!important;animation:none!important}
+ html.mobile-motion .reveal:not(.is-visible){opacity:1;transform:none}
+}
+
+/* 仅桌面/平板：内容和顾问卡随滚动进入，不改变原有版式。 */
+@media(min-width:651px){
+ html.desktop-motion .reveal{
+    transition:opacity .78s ease,transform .9s cubic-bezier(.22,1,.36,1);
+ }
+ html.desktop-motion .reveal:not(.is-visible){
+    opacity:0;
+    transform:translateY(38px);
+ }
+ html.desktop-motion .member.reveal:not(.is-visible){
+    transform:translateY(48px) scale(.975);
+ }
+ html.desktop-motion .reveal.is-visible{opacity:1;transform:none}
+}
+
+@media(min-width:651px) and (prefers-reduced-motion:reduce){
+ html.desktop-motion .reveal{transition:none!important;animation:none!important}
+ html.desktop-motion .reveal:not(.is-visible){opacity:1;transform:none}
 }
 
 /* ===== AI 留学顾问 · Liquid Glass Chat ===== */
@@ -704,7 +862,7 @@
             <a href="#team">顾问团队</a>
         </nav>
         <a class="nav-action" href="#contact">预约咨询 <i aria-hidden="true"></i></a>
-        <button class="menu-toggle" id="menuToggle" aria-label="打开导航"><span></span><span></span></button>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="打开导航" aria-expanded="false"><span></span><span></span></button>
     </div>
 </header>
 
@@ -1048,7 +1206,7 @@
       console.warn('LiquidGlass unavailable; interactive controls remain enabled.', error);
     }
 
-    // 与旧版一致，每个动画帧只刷新 Dock 的玻璃采样；避免聊天窗参与滚动重绘造成卡顿。
+    // 桌面端 Dock 使用 WebGL 透玻璃；滚动时刷新采样，移动端则不用画布。
     let liquidGlassScrollFrame = 0;
     window.addEventListener('scroll', () => {
       if (mobileDockQuery.matches || liquidGlassScrollFrame) return;
@@ -1441,15 +1599,65 @@
     });
 
     const toggle = document.getElementById('menuToggle');
-    toggle.addEventListener('click', () => {
-      const links = document.querySelector('.nav-links');
-      const open = links.style.display === 'flex';
-      links.style.display = open ? 'none' : 'flex';
-      if (!open) {
-        Object.assign(links.style, {position:'absolute', top:'72px', left:'15px', right:'15px', flexDirection:'column', alignItems:'stretch', gap:'0', padding:'15px', background:'#0a1423', border:'1px solid rgba(255,255,255,.18)'});
-        links.querySelectorAll('a').forEach(a => Object.assign(a.style, {padding:'12px 3px', borderBottom:'1px solid rgba(255,255,255,.1)'}));
+    const header = document.querySelector('.site-header');
+    const links = document.querySelector('.nav-links');
+    const mobileNavQuery = window.matchMedia('(max-width:650px)');
+
+    if (mobileNavQuery.matches) {
+      const setMenuOpen = (open) => {
+        header.classList.toggle('menu-open', open);
+        document.documentElement.classList.toggle('mobile-menu-open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? '关闭导航' : '打开导航');
+      };
+
+      const syncMobileDock = () => {
+        header.classList.toggle('is-scrolled', window.scrollY > 24 && !header.classList.contains('menu-open'));
+      };
+
+      toggle.addEventListener('click', () => setMenuOpen(!header.classList.contains('menu-open')));
+      links.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenuOpen(false)));
+      header.querySelector('.nav-action').addEventListener('click', () => setMenuOpen(false));
+      window.addEventListener('scroll', syncMobileDock, { passive: true });
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') setMenuOpen(false);
+      });
+      syncMobileDock();
+
+      if (!window.matchMedia('(prefers-reduced-motion:reduce)').matches) {
+        document.documentElement.classList.add('mobile-motion');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        }, { threshold:.12, rootMargin:'0px 0px -7% 0px' });
+        document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
       }
-    });
+    } else {
+      /* 保留原有平板/桌面菜单逻辑，PC 端样式和交互不变。 */
+      toggle.addEventListener('click', () => {
+        const open = links.style.display === 'flex';
+        links.style.display = open ? 'none' : 'flex';
+        if (!open) {
+          Object.assign(links.style, {position:'absolute', top:'72px', left:'15px', right:'15px', flexDirection:'column', alignItems:'stretch', gap:'0', padding:'15px', background:'#0a1423', border:'1px solid rgba(255,255,255,.18)'});
+          links.querySelectorAll('a').forEach(a => Object.assign(a.style, {padding:'12px 3px', borderBottom:'1px solid rgba(255,255,255,.1)'}));
+        }
+      });
+
+      if (!window.matchMedia('(prefers-reduced-motion:reduce)').matches) {
+        document.documentElement.classList.add('desktop-motion');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        }, { threshold:.14, rootMargin:'0px 0px -8% 0px' });
+        document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+      }
+    }
 </script>
 </body>
 </html>
