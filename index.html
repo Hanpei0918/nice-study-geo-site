@@ -471,13 +471,15 @@
     inset:0;
     z-index:1;
     pointer-events:auto;
-    border:1px solid rgba(255,244,225,.48);
+    border:1px solid rgba(255,255,255,.48);
     border-radius:inherit;
     background:
-      linear-gradient(145deg,rgba(242,207,158,.84),rgba(199,139,76,.76));
+      linear-gradient(145deg,rgba(244,248,251,.55),rgba(184,201,213,.3));
+    backdrop-filter:blur(18px) saturate(115%);
+    -webkit-backdrop-filter:blur(18px) saturate(115%);
     box-shadow:
-      inset 0 1px 1px rgba(255,255,255,.48),
-      inset 0 -1px 1px rgba(104,64,27,.12);
+      inset 0 1px 1px rgba(255,255,255,.68),
+      inset 0 -1px 1px rgba(38,58,76,.12);
 }
 .ai-chat-panel > canvas,
 .ai-chat-launcher > canvas{
@@ -708,7 +710,18 @@
     transition-delay:.12s,0s,0s;
 }
 @media(max-width:650px){
-    .ai-chat-panel{right:12px;bottom:12px;width:calc(100vw - 24px);min-width:0;height:min(520px,calc(100svh - 112px));min-height:380px;border-radius:28px}
+    .ai-chat-panel{
+        left:auto!important;
+        top:auto!important;
+        right:12px!important;
+        bottom:max(12px,env(safe-area-inset-bottom))!important;
+        width:calc(100vw - 24px)!important;
+        min-width:0!important;
+        height:min(520px,calc(100svh - 112px))!important;
+        height:min(520px,calc(100dvh - 112px))!important;
+        min-height:380px;
+        border-radius:28px;
+    }
     .ai-chat-launcher{right:12px;bottom:12px}
     .ai-chat-head{padding:15px 15px 13px}
     .ai-chat-messages{padding:17px 15px}
@@ -1286,12 +1299,20 @@
     const aiLeadClose = document.getElementById('aiLeadClose');
     const aiLeadStatus = document.getElementById('aiLeadStatus');
 
+    const resetMobileChatGeometry = () => {
+      if (!mobileDockQuery.matches) return;
+      ['left', 'top', 'right', 'bottom', 'width', 'height'].forEach((property) => {
+        aiChatPanel.style.removeProperty(property);
+      });
+    };
+
     const setChatCollapsed = (collapsed) => {
+      if (!collapsed) resetMobileChatGeometry();
       liquidGlassRoot.classList.toggle('ai-chat-collapsed', collapsed);
       aiChatPanel.setAttribute('aria-hidden', String(collapsed));
       aiChatLauncher.setAttribute('aria-expanded', String(!collapsed));
       liquidGlass.markChanged();
-      if (!collapsed) setTimeout(() => aiChatInput.focus(), 380);
+      if (!collapsed && !mobileDockQuery.matches) setTimeout(() => aiChatInput.focus(), 380);
     };
 
     const chatViewportMargin = 10;
@@ -1308,14 +1329,15 @@
       return rect;
     };
 
-    // 固定当前视觉位置，让浏览器原生 resize 从右下角自然改变尺寸。
-    pinChatPanelToCurrentPosition();
+    // 桌面端允许拖动和缩放；手机端始终由 fixed + 动态视口尺寸定位。
+    if (mobileDockQuery.matches) resetMobileChatGeometry();
+    else pinChatPanelToCurrentPosition();
     const aiChatResizeObserver = new ResizeObserver(() => liquidGlass.markChanged());
     aiChatResizeObserver.observe(aiChatPanel);
     window.addEventListener('pagehide', () => aiChatResizeObserver.disconnect(), { once: true });
 
     aiChatHead.addEventListener('pointerdown', (event) => {
-      if (event.button !== 0 || event.target.closest('button,a,input,textarea,select')) return;
+      if (mobileDockQuery.matches || event.button !== 0 || event.target.closest('button,a,input,textarea,select')) return;
       const rect = pinChatPanelToCurrentPosition();
       chatInteraction = {
         type: 'move',
@@ -1353,6 +1375,7 @@
 
     let chatResizeState = null;
     aiChatPanel.addEventListener('pointerdown', (event) => {
+      if (mobileDockQuery.matches) return;
       const hitRect = aiChatPanel.getBoundingClientRect();
       const inResizeCorner = event.clientX >= hitRect.right - 34 && event.clientY >= hitRect.bottom - 34;
       if (event.button !== 0 || !inResizeCorner) return;
@@ -1400,6 +1423,11 @@
     window.addEventListener('blur', finishChatResize);
 
     window.addEventListener('resize', () => {
+      if (mobileDockQuery.matches) {
+        resetMobileChatGeometry();
+        liquidGlass.markChanged(aiChatPanel);
+        return;
+      }
       if (!aiChatPanel.style.left) return;
       const rect = aiChatPanel.getBoundingClientRect();
       const width = Math.min(rect.width, window.innerWidth - chatViewportMargin * 2);
@@ -1410,6 +1438,19 @@
       aiChatPanel.style.top = `${Math.min(Math.max(chatViewportMargin, rect.top), window.innerHeight - height - chatViewportMargin)}px`;
       liquidGlass.markChanged();
     });
+
+    const syncMobileChatViewport = () => {
+      if (!mobileDockQuery.matches) return;
+      resetMobileChatGeometry();
+      liquidGlass.markChanged(aiChatPanel);
+      liquidGlass.markChanged(aiChatLauncher);
+    };
+    window.visualViewport?.addEventListener('resize', syncMobileChatViewport, { passive: true });
+    window.visualViewport?.addEventListener('scroll', syncMobileChatViewport, { passive: true });
+    window.addEventListener('pagehide', () => {
+      window.visualViewport?.removeEventListener('resize', syncMobileChatViewport);
+      window.visualViewport?.removeEventListener('scroll', syncMobileChatViewport);
+    }, { once: true });
 
     aiChatClose.addEventListener('click', () => setChatCollapsed(true));
     aiChatLauncher.addEventListener('click', () => setChatCollapsed(false));
