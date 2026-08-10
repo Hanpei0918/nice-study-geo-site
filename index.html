@@ -92,7 +92,25 @@
         .hero-arrow{justify-self:end;display:grid;place-items:center;width:55px;height:55px;border:1px solid rgba(255,255,255,.35);border-radius:50%;font-size:24px;transition:all .25s ease}.hero-arrow:hover{background:#fff;color:var(--ink);transform:translateY(3px)}
 
         /* Intro metrics */
-        .statement{padding:154px 0 96px}.statement-grid{display:grid;grid-template-columns:.8fr 1.6fr;gap:48px;align-items:start}.statement-number{font-size:14px;letter-spacing:.18em;color:#55728c;font-weight:700}.statement h2{font-size:clamp(43px,5.4vw,78px);letter-spacing:-.065em;line-height:1.03;margin:0;max-width:1020px;font-weight:720}.statement h2 em{font-style:normal;color:#52728d}.metrics{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);margin-top:88px}.metric{padding:24px 20px 0 0;border-right:1px solid var(--line)}.metric:not(:first-child){padding-left:28px}.metric:last-child{border-right:0}.metric b{display:block;font-size:clamp(36px,4.3vw,58px);letter-spacing:-.07em;line-height:1;font-weight:720}.metric span{display:block;margin-top:12px;font-size:13px;color:var(--muted)}
+        .statement{padding:154px 0 96px}.statement-grid{
+    display:grid;
+    grid-template-columns:.8fr 1.6fr;
+    gap:48px;
+    align-items:start;
+}
+
+.statement-content{
+    max-width:1050px;
+}
+
+
+.statement-desc{
+    max-width:560px;
+    margin-top:45px;
+    font-size:17px;
+    line-height:1.9;
+    color:var(--muted);
+}.statement-number{font-size:14px;letter-spacing:.18em;color:#55728c;font-weight:700}.statement h2{font-size:clamp(43px,5.4vw,78px);letter-spacing:-.065em;line-height:1.03;margin:0;max-width:1020px;font-weight:720}.statement h2 em{font-style:normal;color:#52728d}.metrics{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);margin-top:88px}.metric{padding:24px 20px 0 0;border-right:1px solid var(--line)}.metric:not(:first-child){padding-left:28px}.metric:last-child{border-right:0}.metric b{display:block;font-size:clamp(36px,4.3vw,58px);letter-spacing:-.07em;line-height:1;font-weight:720}.metric span{display:block;margin-top:12px;font-size:13px;color:var(--muted)}
 
         /* Paths */
         .paths{background:var(--ink);color:var(--white);border-top:none}.paths .section-head{margin-bottom:54px}.paths .eyebrow{color:var(--mint)}.paths .section-copy{color:rgba(255,255,255,.66)}
@@ -134,6 +152,12 @@
         }
         @media (max-width:650px){
           .wrap,.hero-inner{width:min(calc(100% - 30px),var(--max))}.nav{height:72px}.nav-action{font-size:0;padding:8px}.nav-action i{width:24px;height:24px}.hero{min-height:690px}.hero-inner{min-height:690px;padding-top:110px}.hero-topline{font-size:10px}.hero-topline .location{display:none}.hero h1{font-size:clamp(50px,15vw,76px);line-height:.86}.hero p{font-size:14px}.hero-bottom{grid-template-columns:1fr auto;gap:20px}.hero-meta{display:none}.hero-scroll:after{width:42px}.section{padding:76px 0}.section-title{font-size:49px}.section-copy{font-size:15px}.statement{padding:83px 0 55px}.statement-grid{gap:18px}.statement h2{font-size:45px}.metrics{grid-template-columns:1fr 1fr;margin-top:42px}.metric{padding:19px 15px 0 0}.metric:nth-child(2){border-right:0}.metric:nth-child(3){margin-top:20px;padding-left:0}.metric:not(:first-child){padding-left:16px}.metric:nth-child(3){padding-left:0}.metric b{font-size:39px}.path-grid{grid-template-columns:1fr}.path-card{min-height:390px}.advantage-visual{padding:26px;min-height:380px}.advantage-visual h3{left:26px;bottom:27px;font-size:49px}.advantage-point{grid-template-columns:55px 1fr}.advantage-point h4{font-size:22px}.process-item{grid-template-columns:60px 1fr;gap:12px}.process-item i{display:none}.process-item h4{font-size:20px}.results{margin-top:76px}.results-inner{padding:75px 0}.results-top{display:block}.results-top h3{font-size:49px}.results-note{margin-top:22px}.school-grid{grid-template-columns:1fr 1fr}.school-card{min-height:150px;padding:16px}.school-card b{font-size:17px}.team-grid{grid-template-columns:1fr}.member{min-height:430px}.contact h2{font-size:58px}.contact-meta{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.footer{display:block}.footer .brand{margin-bottom:13px}.footer span{display:block;line-height:1.7}.footer a{display:inline-block;margin-top:6px}
+        }
+
+        /* 移动端指标固定为整齐的 2 × 2，第二行统一由 grid 行距控制。 */
+        @media (max-width:650px){
+          .metrics{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:20px}
+          .metric:nth-child(3),.metric:nth-child(4){margin-top:0}
         }
 
 /* ===== WebGL Liquid Glass: Header Dock ===== */
@@ -435,6 +459,70 @@
 @media(min-width:651px) and (prefers-reduced-motion:reduce){
  html.desktop-motion .reveal{transition:none!important;animation:none!important}
  html.desktop-motion .reveal:not(.is-visible){opacity:1;transform:none}
+}
+
+/* 顾问分页浏览：桌面每页四张，移动端每页 2 × 2；按钮切换整页。 */
+.team-carousel{position:relative}
+.team-carousel .team-grid{
+    display:flex;
+    grid-template-columns:none;
+    gap:16px;
+    overflow-x:auto;
+    overflow-y:visible;
+    padding:0 2px 8px;
+    scrollbar-width:none;
+    scroll-behavior:smooth;
+    scroll-snap-type:x mandatory;
+    overscroll-behavior-x:contain;
+}
+.team-carousel .team-grid::-webkit-scrollbar{display:none}
+.team-carousel .team-page{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:16px;
+    flex:0 0 100%;
+    min-width:0;
+    scroll-snap-align:start;
+}
+.team-carousel .member{min-width:0}
+.team-carousel-controls{
+    position:absolute;
+    inset:0;
+    z-index:3;
+    pointer-events:none;
+}
+.team-carousel-controls button{
+    display:grid;
+    place-items:center;
+    position:absolute;
+    top:50%;
+    width:42px;
+    height:42px;
+    padding:0;
+    border:1px solid var(--line);
+    border-radius:50%;
+    background:rgba(255,255,255,.58);
+    color:var(--ink);
+    cursor:pointer;
+    font-size:22px;
+    line-height:1;
+    pointer-events:auto;
+    transform:translateY(-50%);
+    transition:background .25s ease,color .25s ease,transform .25s ease,opacity .25s ease;
+}
+.team-carousel-controls [data-team-prev]{left:-20px}
+.team-carousel-controls [data-team-next]{right:-20px}
+.team-carousel-controls button:hover:not(:disabled){background:var(--ink);color:#fff;transform:translateY(-50%) scale(1.05)}
+.team-carousel-controls button:disabled{cursor:default;opacity:.32}
+@media(max-width:960px){
+ .team-carousel .team-page{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:650px){
+ .team-carousel-controls button{width:38px;height:38px;font-size:20px}
+ .team-carousel .team-grid{gap:8px;padding-bottom:8px}
+ .team-carousel .team-page{gap:8px}
+ .team-carousel-controls [data-team-prev]{left:-10px}
+ .team-carousel-controls [data-team-next]{right:-10px}
 }
 
 /* ===== AI 留学顾问 · Liquid Glass Chat ===== */
@@ -899,19 +987,60 @@
         </div>
     </section>
 
-    <section class="statement" id="about">
-        <div class="wrap">
-            <div class="statement-grid reveal">
-                <span class="statement-number">02 / ABOUT NICE</span>
-                <h2>不是替你“申请一所学校”，<br>而是陪你<span>找到更大的可能。</span></h2>
-            </div>
-            <div class="metrics reveal">
-                <article class="metric"><b>10Yrs+</b><span>团队平均行业经验</span></article>
-                <article class="metric"><b>90%+</b><span>QS 前 100 院校录取率</span></article>
-                <article class="metric"><b>6000+</b><span>累计斩获名校 Offer</span></article>
-            </div>
-        </div>
-    </section>
+<section class="statement" id="about">
+    <div class="wrap">
+        <div class="statement-grid reveal">
+
+    <span class="statement-number">
+        02 / ABOUT NICE
+    </span>
+
+    <div class="statement-content">
+
+        <h2>
+            不是替你“申请一所学校”，<br>
+            而是陪你<span>找到更大的可能。</span>
+        </h2>
+
+        <p class="statement-desc">
+            奈斯教育专注于全球升学规划与国际教育服务，
+            致力于帮助学生探索适合自己的成长路径。
+            我们相信，留学不仅是一份录取通知，
+            更是一场关于未来方向的长期规划。
+            从院校选择、背景提升到申请服务，
+            我们以专业经验陪伴每一位学生做出更好的选择。
+        </p>
+
+    </div>
+
+</div>
+
+
+        <div class="metrics reveal">
+
+    <article class="metric">
+        <b>10Yrs+</b>
+        <span>团队平均行业经验</span>
+    </article>
+
+    <article class="metric">
+        <b>90%+</b>
+        <span>QS 前100院校录取率</span>
+    </article>
+
+    <article class="metric">
+        <b>6000+</b>
+        <span>累计斩获名校 Offer</span>
+    </article>
+
+    <article class="metric">
+        <b>99%+</b>
+        <span>申请成功率</span>
+    </article>
+
+</div>
+    </div>
+</section>
 
     <section class="section paths" id="services">
         <div class="wrap">
@@ -1039,7 +1168,9 @@
                 <p class="section-copy">
                     由主导师、专业导师、职业咨询导师与文书导师组成。我们提供一对一协作，而不是流水线交付。</p>
             </div>
-            <div class="team-grid">
+            <div class="team-carousel" data-team-carousel>
+                <div class="team-grid">
+                <div class="team-page">
                 <article class="member reveal" data-initials="WB" style="--member-photo:url('assets/team-wendy.jpg')">
                     <div class="member-info"><span class="role">FOUNDER · 10YRS+</span><h4>王冰<small>WENDY WANG</small>
                     </h4>
@@ -1060,6 +1191,56 @@
                     </h4>
                         <p>专注多国联申与私人定制规划，以耐心、高响应和细致服务赢得学生与家长的认可。</p></div>
                 </article>
+                </div>
+                <div class="team-page">
+                <article class="member reveal" data-initials="JC" style="--member-photo:url('assets/team-huijun.jpg')">
+                    <div class="member-info"><span class="role">SENIOR PLANNER</span><h4>慧君<small>JOY CHAN</small>
+                    </h4>
+                        <p>拥有多年申请与规划经验，熟悉英国、香港、澳门、新加坡、澳洲与新西兰方向，擅长从定位、选校到材料递交的全流程规划。</p></div>
+                </article>
+                <article class="member reveal" data-initials="LX" style="--member-photo:url('assets/team-luxi.jpg')">
+                    <div class="member-info"><span class="role">SENIOR CONSULTANT</span><h4>露兮<small>LUXI</small>
+                    </h4>
+                        <p>2017年加入国际教育行业，拥有多年雅思教学与留学文案经验，擅长英联邦院校申请、文书打磨与背景挖掘，已帮助数百名学生实现升学目标。</p></div>
+                </article>
+                <article class="member reveal" data-initials="KN" style="--member-photo:url('assets/team-ken.jpg')">
+                    <div class="member-info"><span class="role">EDUCATION CONSULTANT</span><h4>Ken<small>KEN</small>
+                    </h4>
+                        <p>拥有8年留学服务经验，熟悉香港及英联邦升学路径，擅长从学术背景评估到选校、申请与行前安排的完整支持。</p></div>
+                </article>
+                <article class="member reveal" data-initials="ST" style="--member-photo:url('assets/team-stella.jpg')">
+                    <div class="member-info"><span class="role">EDUCATION CONSULTANT</span><h4>Stella<small>STELLA</small>
+                    </h4>
+                        <p>具备管理学与英文双学位背景，拥有UCL教育经历，专注英美方向申请与语言学习规划，擅长用清晰方案陪伴学生完成升学选择。</p></div>
+                </article>
+                </div>
+                <div class="team-page">
+                <article class="member reveal" data-initials="ZH" style="--member-photo:url('assets/team-zhanghuimin.jpg')">
+                    <div class="member-info"><span class="role">EDUCATION CONSULTANT</span><h4>张慧敏<small>ZHANG HUIMIN</small>
+                    </h4>
+                        <p>留学规划专家，指导超过200名学生进入斯坦福、康奈尔、宾大、JHU等名校，擅长个性化规划、精准选校、文书与面试辅导。</p></div>
+                </article>
+                <article class="member reveal" data-initials="RT" style="--member-photo:url('assets/team-rita.jpg')">
+                    <div class="member-info"><span class="role">LANGUAGE &amp; APPLICATION</span><h4>Rita<small>RITA</small>
+                    </h4>
+                        <p>拥有英国大学教育学硕士背景，雅思阅读满分、口语9分，专注语言提升、学术准备与申请材料辅导。</p></div>
+                </article>
+                <article class="member reveal" data-initials="MM" style="--member-photo:url('assets/team-miaomiao.jpg')">
+                    <div class="member-info"><span class="role">LANGUAGE CONSULTANT</span><h4>妙妙<small>MIAOMIAO</small>
+                    </h4>
+                        <p>英国约克大学教育学本科、英国华威大学英语语言教学硕士，擅长语言教学与留学申请支持，帮助学生提升学术表达与沟通能力。</p></div>
+                </article>
+                <article class="member reveal" data-initials="XJ" style="--member-photo:url('assets/team-xiejialong.jpg')">
+                    <div class="member-info"><span class="role">SENIOR PLANNER</span><h4>谢嘉龙<small>XIE JIALONG</small>
+                    </h4>
+                        <p>专注澳新、港澳、新马方向，拥有多年升学指导经验与雅思官方认证资质，擅长背景优化、跨专业申请与全程规划。</p></div>
+                </article>
+                </div>
+                </div>
+                <div class="team-carousel-controls" aria-label="顾问团队滑动控制">
+                    <button type="button" data-team-prev aria-label="查看上一组顾问">←</button>
+                    <button type="button" data-team-next aria-label="查看下一组顾问">→</button>
+                </div>
             </div>
         </div>
     </section>
@@ -1638,6 +1819,37 @@
         aiChatForm.requestSubmit();
       });
     });
+
+    const teamCarousel = document.querySelector('[data-team-carousel]');
+    if (teamCarousel) {
+      const teamTrack = teamCarousel.querySelector('.team-grid');
+      const prevButton = teamCarousel.querySelector('[data-team-prev]');
+      const nextButton = teamCarousel.querySelector('[data-team-next]');
+      const updateTeamControls = () => {
+        const maxScroll = teamTrack.scrollWidth - teamTrack.clientWidth - 1;
+        prevButton.disabled = teamTrack.scrollLeft <= 1;
+        nextButton.disabled = teamTrack.scrollLeft >= maxScroll;
+      };
+      const scrollTeam = (direction) => {
+        const firstPage = teamTrack.querySelector('.team-page');
+        if (!firstPage) return;
+        const gap = parseFloat(getComputedStyle(teamTrack).gap) || 0;
+        const step = firstPage.getBoundingClientRect().width + gap;
+        const maxScroll = Math.max(0, teamTrack.scrollWidth - teamTrack.clientWidth);
+        const target = Math.max(0, Math.min(maxScroll, teamTrack.scrollLeft + direction * step));
+        const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+        teamTrack.scrollTo({ left: target, behavior });
+        window.setTimeout(() => {
+          if (Math.abs(teamTrack.scrollLeft - target) > 1) teamTrack.scrollLeft = target;
+          updateTeamControls();
+        }, behavior === 'smooth' ? 120 : 0);
+      };
+      prevButton.addEventListener('click', () => scrollTeam(-1));
+      nextButton.addEventListener('click', () => scrollTeam(1));
+      teamTrack.addEventListener('scroll', updateTeamControls, { passive: true });
+      window.addEventListener('resize', updateTeamControls);
+      updateTeamControls();
+    }
 
     const toggle = document.getElementById('menuToggle');
     const header = document.querySelector('.site-header');
