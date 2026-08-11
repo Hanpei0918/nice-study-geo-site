@@ -329,9 +329,9 @@
     transition:height .5s cubic-bezier(.22,1,.36,1);
   }
  .site-header .brand-logo{width:126px}
- .site-header.is-scrolled{
+.site-header.is-scrolled{
     background:#07111e;
-    box-shadow:0 1px 0 rgba(255,255,255,.1),0 12px 34px rgba(4,10,18,.16);
+    box-shadow:0 12px 34px rgba(4,10,18,.16);
  }
  .site-header .nav-action{display:none}
  .site-header .menu-toggle{
@@ -523,6 +523,66 @@
  .team-carousel .team-page{gap:8px}
  .team-carousel-controls [data-team-prev]{left:-10px}
  .team-carousel-controls [data-team-next]{right:-10px}
+}
+
+/* 手机端移除非顾问翻页用途的方向箭头。 */
+@media(max-width:650px){
+ .site-header.menu-open .nav-links a:after{content:none}
+ .hero-arrow,.path-arrow{display:none}
+ .form-submit{justify-content:center}
+ .form-submit span:last-child{display:none}
+ .footer a{font-size:0}
+ .footer a:after{content:"BACK TO TOP";font-size:12px}
+}
+
+/* ===== FAQ · High-end Accordion ===== */
+.faq-section{background:var(--ink);color:#fff;border-top:1px solid rgba(255,255,255,.16);border-bottom:1px solid rgba(255,255,255,.16)}
+.faq-section .wrap{padding:122px 0 132px}
+.faq-intro{display:grid;grid-template-columns:.8fr 1.2fr;gap:42px;align-items:end}
+.faq-eyebrow{font-size:12px;letter-spacing:.16em;font-weight:800;color:var(--mint)}
+.faq-intro h2{margin:0;font-size:clamp(48px,5.6vw,80px);line-height:.94;letter-spacing:-.07em;font-weight:680}
+.faq-groups{margin-top:88px;border-top:1px solid rgba(255,255,255,.36)}
+.faq-group{border-bottom:1px solid rgba(255,255,255,.36)}
+.faq-group>summary,.faq-item>summary{list-style:none;cursor:pointer}
+.faq-group>summary::-webkit-details-marker,.faq-item>summary::-webkit-details-marker{display:none}
+.faq-group-summary{display:grid;grid-template-columns:minmax(240px,.7fr) minmax(0,1.3fr) auto;gap:30px;align-items:center;padding:31px 4px 32px}
+.faq-group-tag{display:block;font-size:11px;letter-spacing:.16em;font-weight:800;color:var(--mint)}
+.faq-group-name{font-size:clamp(32px,3.6vw,50px);line-height:1;letter-spacing:-.055em;font-weight:600}
+.faq-toggle,.faq-question-toggle{display:grid;place-items:center;font-size:44px;line-height:.65;font-weight:300;transition:transform .28s ease}
+.faq-group[open] .faq-toggle,.faq-item[open] .faq-question-toggle{transform:rotate(45deg)}
+.faq-group-content{padding:0 0 12px}
+.faq-item{border-top:1px solid rgba(255,255,255,.17)}
+.faq-question-summary{display:grid;grid-template-columns:58px minmax(0,1fr) auto;gap:22px;align-items:center;padding:25px 4px}
+.faq-question-num{font-size:11px;letter-spacing:.14em;color:rgba(255,255,255,.5);font-weight:800}
+.faq-question-title{font-size:clamp(19px,2.05vw,28px);line-height:1.22;letter-spacing:-.04em;font-weight:520}
+.faq-question-toggle{font-size:30px;color:var(--mint)}
+.faq-answer{max-width:820px;margin:0 62px 28px 80px;color:rgba(255,255,255,.68);font-size:15px;line-height:1.9}
+@media(min-width:651px){
+ .faq-section .wrap{padding:104px 0 112px}
+ .faq-intro{grid-template-columns:1fr;gap:22px;align-items:start;max-width:1040px}
+ .faq-intro h2{max-width:980px;font-size:clamp(54px,4.25vw,76px);line-height:1;letter-spacing:-.065em}
+ .faq-groups{margin-top:64px}
+ .faq-group-summary{grid-template-columns:230px minmax(0,1fr) auto;gap:28px;padding:25px 4px 26px}
+ .faq-group-name{font-size:clamp(31px,2.75vw,44px);letter-spacing:-.05em}
+ .faq-toggle{font-size:38px}
+}
+@media(max-width:650px){
+ .faq-section .wrap{padding:84px 0 92px}
+ .faq-intro{grid-template-columns:1fr;gap:18px}
+ .faq-intro h2{font-size:50px}
+ .faq-groups{margin-top:52px}
+ .faq-group-summary{grid-template-columns:1fr auto;gap:13px;padding:24px 0}
+ .faq-group-tag{grid-column:1;font-size:10px}
+ .faq-group-name{grid-column:1;font-size:34px}
+ .faq-toggle{grid-column:2;grid-row:1 / span 2;font-size:38px}
+ .faq-question-summary{grid-template-columns:32px minmax(0,1fr) auto;gap:10px;padding:19px 0}
+ .faq-question-num{font-size:9px}
+ .faq-question-title{font-size:18px}
+ .faq-question-toggle{font-size:26px}
+ .faq-answer{margin:0 0 23px 42px;font-size:14px;line-height:1.8}
+}
+@media(prefers-reduced-motion:reduce){
+ .faq-toggle,.faq-question-toggle{transition:none}
 }
 
 /* ===== AI 留学顾问 · Liquid Glass Chat ===== */
@@ -1035,7 +1095,7 @@
 
     <article class="metric">
         <b>99%+</b>
-        <span>申请成功率</span>
+        <span>申请流程完成率</span>
     </article>
 
 </div>
@@ -1245,11 +1305,99 @@
         </div>
     </section>
 
+    <section class="faq-section" id="faq">
+        <div class="wrap">
+            <div class="faq-intro reveal">
+                <div class="faq-eyebrow">07 / FREQUENTLY ASKED QUESTIONS</div>
+                <h2>留学这件事，<br>先把重要的问题说清楚。</h2>
+            </div>
+            <div class="faq-groups">
+                <details class="faq-group reveal">
+                    <summary class="faq-group-summary">
+                        <span class="faq-group-tag">01 / ABOUT NICE</span>
+                        <span class="faq-group-name">认识奈斯</span>
+                        <span class="faq-toggle" aria-hidden="true">+</span>
+                    </summary>
+                    <div class="faq-group-content">
+                        <details class="faq-item">
+                            <summary class="faq-question-summary"><span class="faq-question-num">01</span><span class="faq-question-title">奈斯教育是一家什么样的留学机构？</span><span class="faq-question-toggle" aria-hidden="true">+</span></summary>
+                            <p class="faq-answer">奈斯教育（NICE EDUCATION）是一家国际教育与升学规划机构，致力于帮助学生进行全球留学规划、院校申请以及未来发展规划。团队拥有丰富行业经验，服务覆盖英国、美国、加拿大、澳大利亚、新西兰、中国香港、中国澳门以及亚洲和欧洲多个留学目的地。</p>
+                        </details>
+                        <details class="faq-item">
+                            <summary class="faq-question-summary"><span class="faq-question-num">02</span><span class="faq-question-title">奈斯教育可以申请哪些国家和地区？</span><span class="faq-question-toggle" aria-hidden="true">+</span></summary>
+                            <p class="faq-answer">奈斯教育提供多个国家和地区的留学申请规划服务，包括英国、美国、加拿大、澳大利亚、新西兰、中国香港、中国澳门以及亚洲和欧洲其他热门留学地区。顾问会根据学生背景、专业方向、预算和未来规划制定个性化申请方案。</p>
+                        </details>
+                        <details class="faq-item">
+                            <summary class="faq-question-summary"><span class="faq-question-num">03</span><span class="faq-question-title">奈斯教育提供哪些留学申请服务？</span><span class="faq-question-toggle" aria-hidden="true">+</span></summary>
+                            <p class="faq-answer">奈斯教育提供从留学定位、选校规划、专业选择、背景提升、申请材料准备、文书指导、网申递交、面试辅导，到 Offer 选择、签证及行前准备的一站式留学服务。</p>
+                        </details>
+                        <details class="faq-item">
+                            <summary class="faq-question-summary"><span class="faq-question-num">04</span><span class="faq-question-title">奈斯教育和传统留学中介有什么区别？</span><span class="faq-question-toggle" aria-hidden="true">+</span></summary>
+                            <p class="faq-answer">奈斯教育不仅关注申请结果，更关注学生长期发展。通过专业导师、申请规划和个性化策略，帮助学生找到适合自身背景和未来职业方向的教育路径。</p>
+                        </details>
+                    </div>
+                </details>
+
+                <details class="faq-group reveal">
+                    <summary class="faq-group-summary">
+                        <span class="faq-group-tag">02 / YOUR STUDY JOURNEY</span>
+                        <span class="faq-group-name">关于留学规划</span>
+                        <span class="faq-toggle" aria-hidden="true">+</span>
+                    </summary>
+                    <div class="faq-group-content">
+                        <details class="faq-item">
+                            <summary class="faq-question-summary"><span class="faq-question-num">01</span><span class="faq-question-title">什么时候开始准备留学申请比较合适？</span><span class="faq-question-toggle" aria-hidden="true">+</span></summary>
+                            <p class="faq-answer">大多数留学申请建议提前一年左右开始规划。如果涉及语言考试、科研经历、实习经历或跨专业申请，更早准备能够帮助学生获得更多选择空间。</p>
+                        </details>
+                        <details class="faq-item">
+                            <summary class="faq-question-summary"><span class="faq-question-num">02</span><span class="faq-question-title">如何判断自己适合申请哪些学校？</span><span class="faq-question-toggle" aria-hidden="true">+</span></summary>
+                            <p class="faq-answer">学校选择需要综合考虑本科背景、成绩、语言能力、专业方向、科研经历、实习经历以及未来职业规划。奈斯教育会通过背景评估，帮助学生制定合理的冲刺、匹配和稳妥院校方案。</p>
+                        </details>
+                        <details class="faq-item">
+                            <summary class="faq-question-summary"><span class="faq-question-num">03</span><span class="faq-question-title">成绩一般，还有机会申请好学校吗？</span><span class="faq-question-toggle" aria-hidden="true">+</span></summary>
+                            <p class="faq-answer">有机会。大学申请通常不会只看单一成绩，还会综合评估学生整体背景，包括课程表现、专业匹配度、语言能力、实践经历和申请材料质量。</p>
+                        </details>
+                        <details class="faq-item">
+                            <summary class="faq-question-summary"><span class="faq-question-num">04</span><span class="faq-question-title">留学申请一定要找留学机构吗？</span><span class="faq-question-toggle" aria-hidden="true">+</span></summary>
+                            <p class="faq-answer">不一定。学生可以根据自身情况选择独立申请。但对于目标复杂、多国家申请、跨专业申请或希望提高申请效率的学生，专业规划可以帮助减少信息差并制定更合理的策略。</p>
+                        </details>
+                    </div>
+                </details>
+
+                <details class="faq-group reveal">
+                    <summary class="faq-group-summary">
+                        <span class="faq-group-tag">03 / SUPPORT &amp; SERVICES</span>
+                        <span class="faq-group-name">关于咨询与服务</span>
+                        <span class="faq-toggle" aria-hidden="true">+</span>
+                    </summary>
+                    <div class="faq-group-content">
+                        <details class="faq-item">
+                            <summary class="faq-question-summary"><span class="faq-question-num">01</span><span class="faq-question-title">奈斯教育在东莞可以提供线下咨询吗？</span><span class="faq-question-toggle" aria-hidden="true">+</span></summary>
+                            <p class="faq-answer">可以。奈斯教育提供线下留学规划咨询服务，同时支持线上沟通，为不同地区学生提供申请规划和升学建议。</p>
+                        </details>
+                        <details class="faq-item">
+                            <summary class="faq-question-summary"><span class="faq-question-num">02</span><span class="faq-question-title">如何预约奈斯教育留学顾问？</span><span class="faq-question-toggle" aria-hidden="true">+</span></summary>
+                            <p class="faq-answer">学生可以通过官网提交咨询信息，包括姓名、联系方式、当前学历阶段以及目标方向，顾问团队会进一步沟通并提供初步规划建议。</p>
+                        </details>
+                        <details class="faq-item">
+                            <summary class="faq-question-summary"><span class="faq-question-num">03</span><span class="faq-question-title">留学申请过程中，顾问会提供哪些支持？</span><span class="faq-question-toggle" aria-hidden="true">+</span></summary>
+                            <p class="faq-answer">顾问会协助学生完成选校定位、申请规划、材料准备、申请递交、面试准备以及后续 Offer 和签证相关支持。</p>
+                        </details>
+                        <details class="faq-item">
+                            <summary class="faq-question-summary"><span class="faq-question-num">04</span><span class="faq-question-title">申请完成后，还能获得哪些帮助？</span><span class="faq-question-toggle" aria-hidden="true">+</span></summary>
+                            <p class="faq-answer">奈斯教育不仅关注申请阶段，也持续提供 Offer 选择、行前准备、海外生活以及未来发展方向相关支持。</p>
+                        </details>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
     <section class="contact" id="contact">
         <div class="wrap section">
             <div class="contact-grid">
                 <div class="reveal">
-                    <div class="eyebrow" style="color:var(--mint)">07 / GET STARTED</div>
+                    <div class="eyebrow" style="color:var(--mint)">08 / GET STARTED</div>
                     <h2>你的人生下一站，<br><em>从一次对话</em><br>开始。</h2>
                     <p>告诉我们你的升学阶段、目标与困惑。让专业顾问从理解你开始，设计更清晰的成长路径。</p>
                     <div class="contact-meta">
