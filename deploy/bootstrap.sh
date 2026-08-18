@@ -12,7 +12,7 @@ REPOSITORY=https://github.com/Hanpei0918/nice-study-geo-site.git
 BRANCH=aliyun-deployment
 
 apt-get update
-apt-get install -y ca-certificates curl git nginx build-essential python3-certbot-nginx
+apt-get install -y ca-certificates curl git nginx rsync build-essential python3-certbot-nginx
 
 # Ubuntu 24.04 自带的 Node 版本可能偏旧；官网 API 使用 Node 22 LTS。
 if ! command -v node >/dev/null 2>&1 || [[ "$(node -p 'process.versions.node.split(".")[0]')" -lt 20 ]]; then
@@ -20,11 +20,16 @@ if ! command -v node >/dev/null 2>&1 || [[ "$(node -p 'process.versions.node.spl
   apt-get install -y nodejs
 fi
 
-if [[ -d "${APP_DIR}/.git" ]]; then
-  git -C "${APP_DIR}" fetch origin "${BRANCH}"
-  git -C "${APP_DIR}" checkout -B "${BRANCH}" "origin/${BRANCH}"
-else
-  git clone --branch "${BRANCH}" --single-branch "${REPOSITORY}" "${APP_DIR}"
+if [[ "${SKIP_GIT_SYNC:-0}" != "1" ]]; then
+  if [[ -d "${APP_DIR}/.git" ]]; then
+    git -C "${APP_DIR}" fetch origin "${BRANCH}"
+    git -C "${APP_DIR}" checkout -B "${BRANCH}" "origin/${BRANCH}"
+  else
+    git clone --branch "${BRANCH}" --single-branch "${REPOSITORY}" "${APP_DIR}"
+  fi
+elif [[ ! -f "${APP_DIR}/server/package.json" ]]; then
+  echo "本地部署包不完整：缺少 ${APP_DIR}/server/package.json" >&2
+  exit 1
 fi
 
 cd "${APP_DIR}/server"
