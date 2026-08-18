@@ -1,0 +1,20 @@
+[Unit]
+Description=NICE Education website API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/opt/nice-education/server
+EnvironmentFile=/etc/nice-education/api.env
+ExecStart=/usr/bin/node /opt/nice-education/server/index.js
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/var/lib/nice-education
+
+[Install]
+WantedBy=multi-user.target

@@ -5,6 +5,9 @@ worker/.dev.vars
 functions/node_modules/
 functions/.env
 functions/.env.*
+server/node_modules/
+server/data/
+server/.env
 firebase-debug.log
 firebase-debug.*.log
 .firebase/

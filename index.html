@@ -11,13 +11,13 @@
           content="奈斯教育 NICE EDUCATION 是位于广东东莞的留学规划与国际教育咨询机构，提供东莞留学申请、海外升学规划、留学辅导、语言培训、签证申请、游学研学与职业规划支持。"/>
     <meta name="keywords"
           content="东莞留学机构,东莞留学,广东留学,东莞靠谱的留学机构,留学规划,留学申请,海外留学规划,国际教育咨询,奈斯教育,NICE EDUCATION"/>
-    <link rel="canonical" href="https://niceeducationglobal.com/"/>
+    <link rel="canonical" href="https://niceeducationcn.com/"/>
     <meta property="og:type" content="website"/>
     <meta property="og:locale" content="zh_CN"/>
     <meta property="og:title" content="东莞留学机构｜广东留学规划与申请｜奈斯教育 NICE EDUCATION"/>
     <meta property="og:description"
           content="面向东莞及广东家庭的留学规划、国际教育咨询、申请辅导、语言培训、签证申请与游学研学服务。"/>
-    <meta property="og:url" content="https://niceeducationglobal.com/"/>
+    <meta property="og:url" content="https://niceeducationcn.com/"/>
     <meta property="og:site_name" content="奈斯教育 NICE EDUCATION"/>
     <meta name="twitter:card" content="summary_large_image"/>
     <link rel="modulepreload" href="assets/vendor/liquidglass-1.0.3.js"/>
@@ -909,35 +909,35 @@
             "@graph": [
                 {
                     "@type": "WebPage",
-                    "@id": "https://niceeducationglobal.com/#webpage",
-                    "url": "https://niceeducationglobal.com/",
+                    "@id": "https://niceeducationcn.com/#webpage",
+                    "url": "https://niceeducationcn.com/",
                     "name": "东莞留学机构｜广东留学规划与申请｜奈斯教育 NICE EDUCATION",
                     "description": "奈斯教育 NICE EDUCATION 是位于广东东莞的留学规划与国际教育咨询机构，提供东莞留学申请、海外升学规划、留学辅导、语言培训、签证申请、游学研学与职业规划支持。",
                     "inLanguage": "zh-CN",
                     "isPartOf": {
-                        "@id": "https://niceeducationglobal.com/#website"
+                        "@id": "https://niceeducationcn.com/#website"
                     },
                     "about": {
-                        "@id": "https://niceeducationglobal.com/#organization"
+                        "@id": "https://niceeducationcn.com/#organization"
                     }
                 },
                 {
                     "@type": "WebSite",
-                    "@id": "https://niceeducationglobal.com/#website",
-                    "url": "https://niceeducationglobal.com/",
+                    "@id": "https://niceeducationcn.com/#website",
+                    "url": "https://niceeducationcn.com/",
                     "name": "奈斯教育 NICE EDUCATION",
                     "inLanguage": "zh-CN"
                 },
                 {
                     "@type": "EducationalOrganization",
-                    "@id": "https://niceeducationglobal.com/#organization",
+                    "@id": "https://niceeducationcn.com/#organization",
                     "name": "奈斯教育",
                     "alternateName": [
                         "NICE EDUCATION",
                         "东莞奈斯教育",
                         "东莞奈斯留学"
                     ],
-                    "url": "https://niceeducationglobal.com/",
+                    "url": "https://niceeducationcn.com/",
                     "description": "位于广东东莞的留学规划与国际教育咨询机构，面向东莞及广东家庭提供海外留学申请、升学规划、留学辅导、语言培训、签证申请、游学研学与职业规划支持。",
                     "areaServed": [
                         {
@@ -970,7 +970,7 @@
                 },
                 {
                     "@type": "FAQPage",
-                    "@id": "https://niceeducationglobal.com/#faq",
+                    "@id": "https://niceeducationcn.com/#faq",
                     "mainEntity": [
                         {
                             "@type": "Question",
@@ -1559,10 +1559,9 @@
     }, { passive: true });
     window.addEventListener('pagehide', () => liquidGlass.destroy(), { once: true });
 
-    // Firebase 项目 ID 在首次部署时写入；API Key 始终只保存在 Firebase Secret 中。
-    const NICE_FIREBASE_PROJECT_ID = window.NICE_FIREBASE_PROJECT_ID || 'nice-study-geo-demo';
-    const NICE_API_BASE = window.NICE_API_BASE
-      || `https://asia-east1-${NICE_FIREBASE_PROJECT_ID}.cloudfunctions.net/api`;
+    // 生产环境由同域名的阿里云 API 提供服务；本地或旧 Firebase 环境仍可通过
+    // window.NICE_API_BASE 显式覆盖。API Key 只保存在服务端环境变量中。
+    const NICE_API_BASE = window.NICE_API_BASE || '/api';
 
     const submitLead = async (payload) => {
       const response = await fetch(`${NICE_API_BASE}/leads`, {

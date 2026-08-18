@@ -1,0 +1,16 @@
+{
+  "name": "nice-education-server",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20 <23"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "check": "node --check index.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "12.4.1",
+    "express": "5.1.0"
+  }
+}
