@@ -2,6 +2,13 @@
 
 生产环境由 Nginx 托管网站静态文件，并把 `/api/` 转发给本地 Node 服务。
 
+首次部署可在 Ubuntu 24.04 的 Workbench 中执行：
+
+```bash
+git clone --branch aliyun-deployment --single-branch https://github.com/Hanpei0918/nice-study-geo-site.git /tmp/nice-education
+sudo bash /tmp/nice-education/deploy/bootstrap.sh
+```
+
 关键目录：
 
 - `/var/www/nice-education`：网页和图片。
